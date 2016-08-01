@@ -56,8 +56,7 @@
 			<p class="lead">Make your home the first and most flexible smart
 				environment on Earth.</p>
 			<p>
-				<a class="btn btn-lg btn-success" href="#" role="button">Go to
-					the dashboard</a>
+				<a class="btn btn-lg btn-success" href="#" role="button">Start the monitor!!</a>
 			</p>
 		</div>
 

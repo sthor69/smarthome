@@ -31,6 +31,7 @@ public class Historizer {
 				;
 
 				line = br.readLine();
+				System.out.println("Curr: " + current + "; in file: " + line);
 				if (null != line && Long.parseLong(line) != current) {
 
 					current = Long.parseLong(line);

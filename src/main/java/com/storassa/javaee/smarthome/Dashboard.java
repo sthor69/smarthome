@@ -21,6 +21,7 @@ public class Dashboard extends HttpServlet {
 
 	@EJB
 	MeasureEJB measureEjb;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -38,29 +39,29 @@ public class Dashboard extends HttpServlet {
 		String temp = getTemperature();
 
 		request.setAttribute("temp", temp);
-
+		System.out.println("temperature = " + temp);
 		request.getRequestDispatcher("/pages/dashboard.jsp").forward(request, response);
 	}
 
 	private String getTemperature() throws IOException {
 
 		String result = "";
-		
-		BufferedReader br = new BufferedReader (new FileReader (System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
-		
+
+		BufferedReader br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
+
 		String line = "";
-		
+
 		while ((line = br.readLine()) != null) {
 			if (line.startsWith(TAG)) {
 				result = line.substring(15);
 			}
 		}
-		
+
 		br.close();
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
