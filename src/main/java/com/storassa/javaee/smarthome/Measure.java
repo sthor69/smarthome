@@ -25,6 +25,14 @@ public class Measure implements Serializable {
 		this.temp = temp;
 	}
 
+	public long getTime() {
+		return time;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
+	}
+
 	public boolean[] getWater() {
 		return water;
 	}

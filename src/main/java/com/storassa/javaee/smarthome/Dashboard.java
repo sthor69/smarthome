@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,8 @@ public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "smarthome";
 
+	@EJB
+	MeasureEJB measureEjb;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -43,7 +46,6 @@ public class Dashboard extends HttpServlet {
 
 		String result = "";
 		
-		String propertyHome = System.getenv("CATALINA_HOME");
 		BufferedReader br = new BufferedReader (new FileReader (System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
 		
 		String line = "";
