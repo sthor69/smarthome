@@ -1,6 +1,7 @@
 package com.storassa.javaee.smarthome;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -18,6 +19,8 @@ import com.google.gson.Gson;
 public class RetrieveHistory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	List<Measure> measures;
+	
 	@EJB
 	MeasureEJB measureEjb;
 	
@@ -34,9 +37,10 @@ public class RetrieveHistory extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		measures = measureEjb.findMeasures();
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
-	    response.getWriter().write(new Gson().toJson(""));
+	    response.getWriter().write(new Gson().toJson(measures));
 	}
 
 	/**

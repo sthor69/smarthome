@@ -81,7 +81,7 @@
 						<h4>Illumination</h4>
 						<span class="text-muted">Temp: ${temp}</span>
 					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
+					<div id="energy" class="col-xs-6 col-sm-3 placeholder">
 						<img src="images/energy_saving_thumbnail.jpg"
 							class="img-responsive" alt="Generic placeholder thumbnail">
 						<h4>Energy saving</h4>
@@ -114,7 +114,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/Chart.bundle.js"></script>
-	<script src="js/myChart.js"></script>
+	<script src="js/energyChart.js"></script>
 
 </body>
 </html>

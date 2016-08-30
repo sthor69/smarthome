@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Dash
+ * Servlet implementation class Dashboard
  */
 @WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
