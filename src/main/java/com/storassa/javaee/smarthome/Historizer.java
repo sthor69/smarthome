@@ -24,7 +24,7 @@ public class Historizer {
 			String result = "";
 
 			String line = "";
-
+			
 			while (true) {
 
 				br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
@@ -45,7 +45,7 @@ public class Historizer {
 						Measure newMeasure = new Measure();
 						newMeasure.setTemp(new int[] { Integer.parseInt(result) });
 						newMeasure.setTime(System.currentTimeMillis());
-						measureEjb.createMeasure(new Measure());
+						measureEjb.createMeasure(newMeasure);
 					}
 
 					Thread.sleep(Flags.MONITOR_DELAY);
@@ -53,15 +53,13 @@ public class Historizer {
 				}
 
 			}
-		} catch (
-
-		IOException e) {
-			try {
-				br.close();
-			} catch (IOException e1) {
-
-				throw new RuntimeException(e);
-			}
+		} catch (IOException e) {
+//			try {
+//				br.close();
+//			} catch (IOException e1) {
+//
+//				throw new RuntimeException(e);
+//			}
 			throw new RuntimeException(e);
 		}
 
