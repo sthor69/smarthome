@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class StartHistorizer
  */
-@WebServlet(description = "Servlet used to start/stop the Historizer", urlPatterns = { "/starthistorizer" })
+@WebServlet(description = "Servlet used to start/stop the Historizer", urlPatterns = { "/index" })
 public class StartHistorizer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -29,21 +29,13 @@ public class StartHistorizer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if (!Flags.HISTORY_STARTED) {
-			Historizer hist = new Historizer();
-			request.setAttribute("hist", "true");
-			try {
-				hist.init();
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		} else {
-			request.removeAttribute("hist");
+		Historizer hist = new Historizer();
+		try {
+			hist.init();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		
 
-		Flags.HISTORY_STARTED = !Flags.HISTORY_STARTED;
-		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
