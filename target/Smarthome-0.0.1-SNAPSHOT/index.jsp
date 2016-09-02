@@ -56,7 +56,7 @@
 			<p class="lead">Make your home the first and most flexible smart
 				environment on Earth.</p>
 			<p>
-				<a class="btn btn-lg btn-success" href="starthistorizer" role="button"><% if (request.getAttribute("hist") == null) {%>Start <%} else {%>Stop <%}%>the monitor!!</a>
+				<a class="btn btn-lg btn-success" href="starthistorizer" role="button">Start the monitor!!</a>
 			</p>
 		</div>
 

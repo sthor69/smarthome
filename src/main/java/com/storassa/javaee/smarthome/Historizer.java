@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.inject.Named;
 
 public class Historizer {
 
@@ -24,14 +25,13 @@ public class Historizer {
 			String result = "";
 
 			String line = "";
-			
+
 			while (true) {
 
 				br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
 				;
 
 				line = br.readLine();
-				System.out.println("Curr: " + current + "; in file: " + line);
 				if (null != line && Long.parseLong(line) != current) {
 
 					current = Long.parseLong(line);
@@ -42,24 +42,29 @@ public class Historizer {
 							result = line.substring(15);
 						}
 
+						System.out.println("Found new measure with temp: " + result);
+
 						Measure newMeasure = new Measure();
 						newMeasure.setTemp(new int[] { Integer.parseInt(result) });
 						newMeasure.setTime(System.currentTimeMillis());
-						measureEjb.createMeasure(newMeasure);
+						if (null != measureEjb)
+							measureEjb.createMeasure(newMeasure);
+						else
+							System.out.println("NULL EJB!!!!");
 					}
-
-					Thread.sleep(Flags.MONITOR_DELAY);
 
 				}
 
+				Thread.sleep(Flags.MONITOR_DELAY);
+
 			}
 		} catch (IOException e) {
-//			try {
-//				br.close();
-//			} catch (IOException e1) {
-//
-//				throw new RuntimeException(e);
-//			}
+			// try {
+			// br.close();
+			// } catch (IOException e1) {
+			//
+			// throw new RuntimeException(e);
+			// }
 			throw new RuntimeException(e);
 		}
 

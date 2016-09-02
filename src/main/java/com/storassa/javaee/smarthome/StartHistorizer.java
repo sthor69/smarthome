@@ -2,6 +2,7 @@ package com.storassa.javaee.smarthome;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,9 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class StartHistorizer
  */
-@WebServlet(description = "Servlet used to start/stop the Historizer", urlPatterns = { "/index" })
+@WebServlet(description = "Servlet used to start/stop the Historizer", urlPatterns = { "/starthistorizer" })
 public class StartHistorizer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@EJB
+	MeasureEJB measureEjb;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -29,12 +33,7 @@ public class StartHistorizer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Historizer hist = new Historizer();
-		try {
-			hist.init();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		measureEjb.executeBgThread();
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
