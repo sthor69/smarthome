@@ -18,16 +18,14 @@ public class MeasureEJB {
 	@Resource
     ManagedExecutorService managedExecutorService;
 	
-	@Inject
-    Instance<UpdatingTask> myTaskInstance;
- 
-
 	@PersistenceContext(unitName = "smarthomePU")
 	private EntityManager em;
 
 	public List<Measure> findMeasures() {
 		Query query = em.createQuery("SELECT b FROM Measure b");
-		return query.getResultList();
+		List result = query.getResultList();
+		System.out.println("Retrieved " + result.size() + " items");
+		return result;
 	}
 
 	public Measure createMeasure (Measure _measure) {
@@ -35,8 +33,4 @@ public class MeasureEJB {
 		return _measure;
 	}
 	
-	public void executeBgThread() {
-		UpdatingTask myTask = myTaskInstance.get();
-        this.managedExecutorService.submit(myTask);
-	}
 }

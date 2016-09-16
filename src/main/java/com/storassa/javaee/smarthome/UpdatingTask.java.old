@@ -1,0 +1,80 @@
+package com.storassa.javaee.smarthome;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+
+@Stateless
+@LocalBean
+public class UpdatingTask implements Runnable {
+
+	private static final String TAG = "smarthome";
+
+	@EJB
+	MeasureEJB measureEjb;
+
+	@Override
+	public void run() {
+		BufferedReader br = null;
+
+		try {
+
+			long current = 0;
+
+			String result = "";
+
+			String line = "";
+
+			while (true) {
+
+				br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
+				;
+
+				line = br.readLine();
+				if (null != line && Long.parseLong(line) != current) {
+
+					current = Long.parseLong(line);
+
+					while ((line = br.readLine()) != null) {
+
+						if (line.startsWith(TAG)) {
+							result = line.substring(15);
+						}
+
+						System.out.println("Found new measure with temp: " + result);
+
+						if ("" != result) {
+							Measure newMeasure = new Measure();
+							newMeasure.setTemp(new int[] { Integer.parseInt(result) });
+							newMeasure.setTime(System.currentTimeMillis());
+
+							if (null != measureEjb) {
+
+								System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
+								measureEjb.createMeasure(newMeasure);
+
+							} else
+								System.out.println("NULL EJB!!!!");
+						}
+					}
+
+				}
+
+				Thread.sleep(Flags.MONITOR_DELAY);
+
+			}
+		} catch (Exception e) {
+			// try {
+			// br.close();
+			// } catch (IOException e1) {
+			//
+			// throw new RuntimeException(e);
+			// }
+			throw new RuntimeException(e);
+		}
+	}
+
+}

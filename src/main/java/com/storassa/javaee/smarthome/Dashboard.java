@@ -3,8 +3,11 @@ package com.storassa.javaee.smarthome;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.enterprise.concurrent.ManagedScheduledExecutorService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "smarthome";
+	
+	long current = 0;
 
 	@EJB
 	MeasureEJB measureEjb;
+
+	@Resource(name = "concurrent/scheduledExecutor")
+	private ManagedScheduledExecutorService executorService;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -68,6 +76,70 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void init() throws ServletException {
+		
+		executorService.scheduleWithFixedDelay(new Runnable() {
+			@Override
+			public void run() {
+				BufferedReader br = null;
+
+				try {
+						String result = "";
+
+						String line = "";
+
+						br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
+
+						line = br.readLine();
+						if (null != line && Long.parseLong(line) != current) {
+
+							current = Long.parseLong(line);
+
+							while ((line = br.readLine()) != null) {
+
+								if (line.startsWith(TAG)) {
+									result = line.substring(15);
+								}
+
+								System.out.println("Found new measure with temp: " + result);
+
+								if ("" != result) {
+									Measure newMeasure = new Measure();
+									newMeasure.setTemp(new int[] { Integer.parseInt(result) });
+									newMeasure.setTime(System.currentTimeMillis());
+
+									if (null != measureEjb) {
+
+										System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
+										measureEjb.createMeasure(newMeasure);
+
+									} else
+										System.out.println("NULL EJB!!!!");
+								}
+							}
+
+						}
+						
+						br.close();
+
+						Thread.sleep(Flags.MONITOR_DELAY);
+
+					
+				} catch (Exception e) {
+					// try {
+					// br.close();
+					// } catch (IOException e1) {
+					//
+					// throw new RuntimeException(e);
+					// }
+					throw new RuntimeException(e);
+				}
+			}
+		}, 0, 10, TimeUnit.SECONDS);
+
 	}
 
 	public static void main(String[] args) {

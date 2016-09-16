@@ -18,7 +18,8 @@ public class StartHistorizer extends HttpServlet {
 	
 	@EJB
 	MeasureEJB measureEjb;
-
+	
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -33,7 +34,6 @@ public class StartHistorizer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		measureEjb.executeBgThread();
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
