@@ -112,36 +112,34 @@
 				<script>
 					var hist;
 					$.ajax({
-						url: '/history',
+						url: 'history',
 						success: function(data) {
-							$('#sub-title').html(data);
-							}
-					});
-					
-					var temp = hist.map(function(a) {
-						return a.temp;
-					});
-					var ctx = document.getElementById("myChart");
-					var myChart = new Chart(ctx, {
-						type : 'line',
-						data : {
-							labels : [ "Red", "Blue", "Yellow", "Green",
-									"Purple", "Orange" ],
-							datasets : [ {
-								label : '# of Votes',
-								data : temp
-							} ]
-						},
-						options : {
-							scales : {
-								yAxes : [ {
-									ticks : {
-										beginAtZero : true
+							$('#sub-title').html("Current temperature: " + data[data.length - 1].temp[0]);
+							var ctx = document.getElementById("myChart");
+							var myChart = new Chart(ctx, {
+								type : 'line',
+								data : {
+									labels : [ "Red", "Blue", "Yellow", "Green",
+											"Purple", "Orange" ],
+									datasets : [ {
+										label : '# of Votes',
+										data : data.map(function(a) {return a.temp[0];})
+									} ]
+								},
+								options : {
+									scales : {
+										yAxes : [ {
+											ticks : {
+												beginAtZero : true
+											}
+										} ]
 									}
-								} ]
-							}
+								}
+							});
 						}
 					});
+					
+					
 				</script>
 			</div>
 		</div>
