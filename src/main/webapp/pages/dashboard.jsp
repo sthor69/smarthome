@@ -128,7 +128,7 @@
 									scales : {
 										yAxes : [ {
 											ticks : {
-												beginAtZero : true
+												beginAtZero : false
 											}
 										} ]
 									}
