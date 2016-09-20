@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Measure implements Serializable {
 
 	@Id
-	private long time;
+	private String time;
 	
 	private int[] temp;
 	
@@ -25,11 +25,11 @@ public class Measure implements Serializable {
 		this.temp = temp;
 	}
 
-	public long getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
@@ -50,7 +50,7 @@ public class Measure implements Serializable {
 	public Measure(int[] _temp, boolean[] _water) {
 		temp = _temp;
 		water = _water;
-		time = System.currentTimeMillis();
+		time = "";
 	}
    
 }

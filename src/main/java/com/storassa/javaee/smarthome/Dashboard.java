@@ -3,6 +3,8 @@ package com.storassa.javaee.smarthome;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "smarthome";
-	
+
 	long current = 0;
 
 	@EJB
@@ -81,53 +83,62 @@ public class Dashboard extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		
+		System.out.println("init() method fired");
+
 		executorService.scheduleWithFixedDelay(new Runnable() {
 			@Override
 			public void run() {
 				BufferedReader br = null;
 
 				try {
-						String result = "";
 
-						String line = "";
+					String result = "";
 
-						br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
+					String line = "";
 
-						line = br.readLine();
-						if (null != line && Long.parseLong(line) != current) {
+					br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
 
-							current = Long.parseLong(line);
+					line = br.readLine();
 
-							while ((line = br.readLine()) != null) {
+					System.out.println("Current: " + current + ", read: " + Long.parseLong(line));
 
-								if (line.startsWith(TAG)) {
-									result = line.substring(15);
-								}
+					if (null != line && Long.parseLong(line) != current) {
 
-								System.out.println("Found new measure with temp: " + result);
+						current = Long.parseLong(line);
 
-								if ("" != result) {
-									Measure newMeasure = new Measure();
-									newMeasure.setTemp(new int[] { Integer.parseInt(result) });
-									newMeasure.setTime(System.currentTimeMillis());
+						while ((line = br.readLine()) != null) {
 
-									if (null != measureEjb) {
-
-										System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
-										measureEjb.createMeasure(newMeasure);
-
-									} else
-										System.out.println("NULL EJB!!!!");
-								}
+							if (line.startsWith(TAG)) {
+								result = line.substring(15);
 							}
 
+							System.out.println("Found new measure with temp: " + result);
+
+							if ("" != result) {
+								Measure newMeasure = new Measure();
+								newMeasure.setTemp(new int[] { Integer.parseInt(result) });
+
+								long yourmilliseconds = System.currentTimeMillis();
+								SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+								Date resultdate = new Date(yourmilliseconds);
+								newMeasure.setTime(sdf.format(resultdate));
+
+								if (null != measureEjb) {
+
+									System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
+									measureEjb.createMeasure(newMeasure);
+
+								} else
+									System.out.println("NULL EJB!!!!");
+							}
 						}
-						
-						br.close();
 
-						Thread.sleep(Flags.MONITOR_DELAY);
+					}
 
-					
+					br.close();
+
+					Thread.sleep(Flags.MONITOR_DELAY);
+
 				} catch (Exception e) {
 					// try {
 					// br.close();
@@ -135,7 +146,7 @@ public class Dashboard extends HttpServlet {
 					//
 					// throw new RuntimeException(e);
 					// }
-					throw new RuntimeException(e);
+					System.out.println(e.getMessage());
 				}
 			}
 		}, 0, 10, TimeUnit.SECONDS);

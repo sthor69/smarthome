@@ -119,10 +119,8 @@
 							var myChart = new Chart(ctx, {
 								type : 'line',
 								data : {
-									labels : [ "Red", "Blue", "Yellow", "Green",
-											"Purple", "Orange" ],
+									labels: data.map(function(a) {return a.time;}),
 									datasets : [ {
-										label : '# of Votes',
 										data : data.map(function(a) {return a.temp[0];})
 									} ]
 								},

@@ -119,6 +119,7 @@
 							var myChart = new Chart(ctx, {
 								type : 'line',
 								data : {
+									labels: data.map(function(a) {return a.time;}),
 									datasets : [ {
 										data : data.map(function(a) {return a.temp[0];})
 									} ]
