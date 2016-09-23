@@ -15,9 +15,6 @@ import javax.persistence.Query;
 @Stateless
 public class MeasureEJB {
 	
-	@Resource
-    ManagedExecutorService managedExecutorService;
-	
 	@PersistenceContext(unitName = "smarthomePU")
 	private EntityManager em;
 

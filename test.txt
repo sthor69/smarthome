@@ -1,2 +1,2 @@
-6
-smarthome:sala:32
+118
+smarthome:sala:28
