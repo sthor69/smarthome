@@ -1,0 +1,2 @@
+6
+smarthome:sala:32
