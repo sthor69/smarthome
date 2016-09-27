@@ -5,24 +5,27 @@ import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.ejb.Stateless;
 
-@Singleton
+@Stateless
 @LocalBean
 @Startup
 public class UpdateEJB {
-	
-	private static final String TAG = "smarthome";
 
-	long current = 0;
+	private static final String TAG = "smarthome";
 
 	@EJB
 	MeasureEJB measureEjb;
 
+	@PostConstruct
+	private void init() {
+		System.out.println("MeasureEJB Created");
+	}
 
 	@Schedule(second = "*/1", minute = "*", hour = "*", persistent = false)
 	public void doWork() {
@@ -38,39 +41,31 @@ public class UpdateEJB {
 
 			line = br.readLine();
 
-			System.out.println("Current: " + current + ", read: " + Long.parseLong(line));
+			while ((line = br.readLine()) != null) {
 
-			if (null != line && Long.parseLong(line) != current) {
-
-				current = Long.parseLong(line);
-
-				while ((line = br.readLine()) != null) {
-
-					if (line.startsWith(TAG)) {
-						result = line.substring(15);
-					}
-
-					System.out.println("Found new measure with temp: " + result);
-
-					if ("" != result) {
-						Measure newMeasure = new Measure();
-						newMeasure.setTemp(new int[] { Integer.parseInt(result) });
-
-						long yourmilliseconds = System.currentTimeMillis();
-						SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
-						Date resultdate = new Date(yourmilliseconds);
-						newMeasure.setTime(sdf.format(resultdate));
-
-						if (null != measureEjb) {
-
-							System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
-							measureEjb.createMeasure(newMeasure);
-
-						} else
-							System.out.println("NULL EJB!!!!");
-					}
+				if (line.startsWith(TAG)) {
+					result = line.substring(15);
 				}
 
+				System.out.println("Found new measure with temp: " + result);
+
+				if ("" != result) {
+					Measure newMeasure = new Measure();
+					newMeasure.setTemp(new int[] { Integer.parseInt(result) });
+
+					long yourmilliseconds = System.currentTimeMillis();
+					SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+					Date resultdate = new Date(yourmilliseconds);
+					newMeasure.setTime(sdf.format(resultdate));
+
+					if (null != measureEjb) {
+
+						System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
+						measureEjb.createMeasure(newMeasure);
+
+					} else
+						System.out.println("NULL Ejb!!!!");
+				}
 			}
 
 			br.close();

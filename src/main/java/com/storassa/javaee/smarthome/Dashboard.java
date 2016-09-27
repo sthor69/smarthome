@@ -26,11 +26,11 @@ public class Dashboard extends HttpServlet {
 
 	long current = 0;
 
-	@EJB
-	MeasureEJB measureEjb;
+//	@EJB
+//	MeasureEJB measureEjb;
 
-	@Resource(name = "concurrent/scheduledExecutor")
-	private ManagedScheduledExecutorService executorService;
+//	@Resource(name = "concurrent/scheduledExecutor")
+//	private ManagedScheduledExecutorService executorService;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -80,9 +80,9 @@ public class Dashboard extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void init() throws ServletException {
-//		
+//	@Override
+//	public void init() throws ServletException {
+////		
 //		System.out.println("init() method fired");
 //
 //		executorService.scheduleWithFixedDelay(new Runnable() {
@@ -151,7 +151,7 @@ public class Dashboard extends HttpServlet {
 //			}
 //		}, 0, 10, TimeUnit.SECONDS);
 //
-	}
+//	}
 
 	public static void main(String[] args) {
 		Dashboard d = new Dashboard();
