@@ -2,7 +2,7 @@
 <persistence version="2.1"
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="smarthomePU" transaction-type="JTA">
+	<persistence-unit name="smarthomeUnit" transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>com.storassa.javaee.smarthome.Measure</class>
 		<properties>
@@ -11,7 +11,7 @@
 			<property name="eclipselink.jdbc.url" value="jdbc:derby://localhost:1527;create=true" />
 			<property name="eclipselink.jdbc.user" value="APP" />
 			<property name="eclipselink.jdbc.password" value="APP" />
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="eclipselink.logging.level" value="INFO" />
 			<property name="eclipselink.deploy-on-startup" value="true" />
 		</properties>

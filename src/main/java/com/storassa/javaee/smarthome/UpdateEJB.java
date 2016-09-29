@@ -24,10 +24,10 @@ public class UpdateEJB {
 
 	@PostConstruct
 	private void init() {
-		System.out.println("MeasureEJB Created");
+		System.out.println("UpdateEJB Created");
 	}
 
-	@Schedule(second = "*/1", minute = "*", hour = "*", persistent = false)
+	@Schedule(minute = "*/1", hour = "*", persistent = false)
 	public void doWork() {
 		BufferedReader br = null;
 
@@ -77,7 +77,7 @@ public class UpdateEJB {
 			//
 			// throw new RuntimeException(e);
 			// }
-			System.out.println(e.getMessage());
+			System.out.println("Exception thrown in UpdateEJB: " + e.getCause());
 		}
 	}
 

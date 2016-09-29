@@ -109,10 +109,10 @@
 
 				<h2 id="sub-title" class="sub-header">Section title</h2>
 				<canvas id="myChart" width="400" height="400"></canvas>
-				<script>
+ 				<script>
 					var hist;
 					$.ajax({
-						url: 'history',
+						url: 'history?num=100',
 						success: function(data) {
 							$('#sub-title').html("Current temperature: " + data[data.length - 1].temp[0]);
 							var ctx = document.getElementById("myChart");
@@ -138,7 +138,7 @@
 					});
 					
 					
-				</script>
+				</script> 
 			</div>
 		</div>
 	</div>

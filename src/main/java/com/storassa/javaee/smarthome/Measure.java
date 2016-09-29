@@ -10,7 +10,9 @@ import javax.persistence.*;
 @Entity
 public class Measure implements Serializable {
 
-	@Id
+	@Id @GeneratedValue
+	private long id;
+	
 	private String time;
 	
 	private int[] temp;
