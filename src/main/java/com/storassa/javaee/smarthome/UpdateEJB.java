@@ -43,40 +43,54 @@ public class UpdateEJB {
 
 			while ((line = br.readLine()) != null) {
 
+				Measure newMeasure = new Measure();
+
+				// if a new sensor message is found extract the temperature,
+				// otherwise set it to null string
 				if (line.startsWith(TAG)) {
+
 					result = line.substring(15);
+					
+				} else {
+					
+					result = "";
 				}
 
-				System.out.println("Found new measure with temp: " + result);
-
+				// if temp is not null, set the measure and log
+				// otherwise set temp to 0 and log the missing message
 				if ("" != result) {
-					Measure newMeasure = new Measure();
+
 					newMeasure.setTemp(new int[] { Integer.parseInt(result) });
+					System.out.println("Found new measure with temp: " + result);
 
-					long yourmilliseconds = System.currentTimeMillis();
-					SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
-					Date resultdate = new Date(yourmilliseconds);
-					newMeasure.setTime(sdf.format(resultdate));
+				} else {
 
-					if (null != measureEjb) {
-
-						System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
-						measureEjb.createMeasure(newMeasure);
-
-					} else
-						System.out.println("NULL Ejb!!!!");
+					newMeasure.setTemp(new int[] { 0 });
+					System.out.println("Sensors are not sending messages");
 				}
+
+				// retrieve current date and time
+				long yourmilliseconds = System.currentTimeMillis();
+				SimpleDateFormat sdf = new SimpleDateFormat(Flags.DATE_FORMAT_MEASURE);
+				Date resultdate = new Date(yourmilliseconds);
+				
+				// set the current date and time
+				newMeasure.setTime(sdf.format(resultdate).trim());
+
+				// if MeasureEJB got injected, persist the new measure
+				// otherwise log the mull EJB
+				if (null != measureEjb) {
+
+					System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
+					measureEjb.createMeasure(newMeasure);
+
+				} else
+					System.out.println("NULL Ejb!!!!");
 			}
 
 			br.close();
 
 		} catch (Exception e) {
-			// try {
-			// br.close();
-			// } catch (IOException e1) {
-			//
-			// throw new RuntimeException(e);
-			// }
 			System.out.println("Exception thrown in UpdateEJB: " + e.getCause());
 		}
 	}

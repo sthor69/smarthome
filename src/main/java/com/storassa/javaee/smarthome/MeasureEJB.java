@@ -27,12 +27,13 @@ public class MeasureEJB {
 
 			Query query = em.createQuery("SELECT b FROM Measure b");
 			result = query.getResultList();
+			
+			System.out.println("DB access for query: " + query.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		System.out.println("Retrieved " + result.size() + " items");
 		return result;
 	}
 
@@ -41,12 +42,17 @@ public class MeasureEJB {
 
 		try {
 			
-
-			Query query2 = em.createQuery("SELECT b FROM Measure b ORDER BY b.id ASC");
-			result = query2.setFirstResult(0).getResultList();
+			Query query = em.createQuery("SELECT b FROM Measure b ORDER BY b.id ASC");
+			result = query.setFirstResult(0).getResultList();
+			
+			System.out.println("DB access for query: " + query.toString());
+			
 			if (null != result)
+				
 				truncatedResult = new ArrayList<Measure>(result.subList(result.size() > num ? result.size() - num: 0, result.size()));
+			
 			else
+				
 				return null;
 
 		} catch (Exception e) {
@@ -56,6 +62,22 @@ public class MeasureEJB {
 		System.out.println("Retrieved " + truncatedResult.size() + " items");
 		return truncatedResult;
 
+	}
+	
+	public List<Measure> findMeasure(String date) {
+		List<Measure> result = null;
+		
+		String q = "SELECT b FROM Measure b WHERE b.time LIKE '" + date + "%' ORDER BY b.id ASC";
+		
+		Query query = em.createQuery(q);
+//		query.setParameter("x", date + "%");
+		
+		System.out.println("Created query: " + q);
+		System.out.println("DB access for query: " + query.toString());
+		
+		result = query.getResultList();
+		
+		return result;
 	}
 
 	public Measure createMeasure(Measure _measure) {

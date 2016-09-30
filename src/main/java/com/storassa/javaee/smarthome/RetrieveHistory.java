@@ -38,10 +38,23 @@ public class RetrieveHistory extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if (request.getParameter("num") == null)
+		
+		String num = request.getParameter("num");
+		String date = request.getParameter("date");
+		
+		if (num != null && !num.equals("")) {
+
+			measures = measureEjb.findMeasures(Integer.parseInt(num));
+
+		} else if (date != null) {
+			
+			measures = measureEjb.findMeasure(date);
+		
+		} else {
+			
 			measures = measureEjb.findMeasures();
-		else
-			measures = measureEjb.findMeasures(Integer.parseInt(request.getParameter("num")));
+		}
+
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(new Gson().toJson(measures));
