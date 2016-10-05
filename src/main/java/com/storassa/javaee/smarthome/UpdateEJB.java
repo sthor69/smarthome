@@ -29,6 +29,9 @@ public class UpdateEJB {
 
 	@Schedule(minute = "*/1", hour = "*", persistent = false)
 	public void doWork() {
+		
+		System.out.println("Timer fired");
+		
 		BufferedReader br = null;
 
 		try {
@@ -40,6 +43,8 @@ public class UpdateEJB {
 			br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
 
 			line = br.readLine();
+			
+			System.out.println("Read lin: " + line);
 
 			while ((line = br.readLine()) != null) {
 
