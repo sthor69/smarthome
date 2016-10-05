@@ -36,7 +36,7 @@ public class UpdateEJB {
 
 		try {
 
-			String result = "";
+			String[] result = {"",""};
 
 			String line = "";
 
@@ -54,19 +54,20 @@ public class UpdateEJB {
 				// otherwise set it to null string
 				if (line.startsWith(TAG)) {
 
-					result = line.substring(15);
+					result = line.substring(15).split(",");
 					
-				} else {
+				} else
 					
-					result = "";
-				}
+					result = null;
 
 				// if temp is not null, set the measure and log
 				// otherwise set temp to 0 and log the missing message
-				if ("" != result) {
+				if (null != result) {
 
-					newMeasure.setTemp(new int[] { Integer.parseInt(result) });
-					System.out.println("Found new measure with temp: " + result);
+					newMeasure.setTemp(new int[] { Integer.parseInt(result[0]) });
+					newMeasure.setHumidity(new int[] {Integer.parseInt(result[1]) });
+					System.out.println("Found new measure with temp: " + result[0]
+							+ ", and humidity " + result[1]);
 
 				} else {
 

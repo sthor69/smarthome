@@ -17,6 +17,8 @@ public class Measure implements Serializable {
 	
 	private int[] temp;
 	
+	private int[] humidity;
+	
 	private boolean[] water;
     
 	public int[] getTemp() {
@@ -25,6 +27,14 @@ public class Measure implements Serializable {
 
 	public void setTemp(int[] temp) {
 		this.temp = temp;
+	}
+
+	public int[] getHumidity() {
+		return humidity;
+	}
+
+	public void setHumidity(int[] humidity) {
+		this.humidity = humidity;
 	}
 
 	public String getTime() {
