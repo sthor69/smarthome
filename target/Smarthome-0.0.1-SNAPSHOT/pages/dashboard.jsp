@@ -82,63 +82,35 @@
 
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img src="images/illumination_thumbnail.png"
+						<img id="light-img" src="images/illumination_thumbnail.png"
 							class="img-responsive" alt="Generic placeholder thumbnail">
 						<h4>Illumination</h4>
-						<span class="text-muted">Temp: ${temp}</span>
+						<span class="text-muted">Something else</span>
 					</div>
 					<div id="energy" class="col-xs-6 col-sm-3 placeholder">
-						<img src="images/energy_saving_thumbnail.jpg"
+						<img id="energy-img" src="images/energy_saving_thumbnail.jpg"
 							class="img-responsive" alt="Generic placeholder thumbnail">
 						<h4>Energy saving</h4>
 						<span class="text-muted">Something else</span>
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img src="images/air_conditioning_thumbnail.jpg"
+						<img id="hvac-img" src="images/air_conditioning_thumbnail.jpg"
 							class="img-responsive" alt="Generic placeholder thumbnail">
 						<h4>Air conditioning</h4>
 						<span class="text-muted">Something else</span>
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img src="images/monitoring_thumbnail.jpeg" class="img-responsive"
+						<img id="monitor-img" src="images/monitoring_thumbnail.jpeg" class="img-responsive"
 							alt="Generic placeholder thumbnail">
 						<h4>Monitoring</h4>
 						<span class="text-muted">Something else</span>
 					</div>
 				</div>
-
-				<h2 id="sub-title" class="sub-header">Section title</h2>
-				<canvas id="myChart" width="400" height="400"></canvas>
- 				<script>
-					var hist;
-					$.ajax({
-						url: 'history?num=100',
-						success: function(data) {
-							$('#sub-title').html("Current temperature: " + data[data.length - 1].temp[0]);
-							var ctx = document.getElementById("myChart");
-							var myChart = new Chart(ctx, {
-								type : 'line',
-								data : {
-									labels: data.map(function(a) {return a.time;}),
-									datasets : [ {
-										data : data.map(function(a) {return a.temp[0];})
-									} ]
-								},
-								options : {
-									scales : {
-										yAxes : [ {
-											ticks : {
-												beginAtZero : false
-											}
-										} ]
-									}
-								}
-							});
-						}
-					});
-					
-					
-				</script> 
+				<div id=detail-fragment>
+					<h3>Temperature: ${temp}</h3><br />
+					<h3>Humidity: ${humidity}%</h3>
+					<script src="js/selection.js"></script>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -33,16 +33,20 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String temp = getTemperature();
+		String[] fromFile = getTemperature();
+		
+		String temp = fromFile[0];
+		String humidity = fromFile[1];
 
 		request.setAttribute("temp", temp);
-		System.out.println("temperature = " + temp);
+		request.setAttribute("humidity", humidity);
+		
 		request.getRequestDispatcher("/pages/dashboard.jsp").forward(request, response);
 	}
 
-	private String getTemperature() throws IOException {
+	private String[] getTemperature() throws IOException {
 
-		String result = "";
+		String[] result = {"",""};
 
 		BufferedReader br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
 
@@ -50,7 +54,8 @@ public class Dashboard extends HttpServlet {
 
 		while ((line = br.readLine()) != null) {
 			if (line.startsWith(TAG)) {
-				result = line.substring(15);
+				result = line.substring(15).split(",");
+				System.out.println("Read from file: " + line.substring(15));
 			}
 		}
 
