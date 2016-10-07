@@ -8,10 +8,15 @@
 </head>
 <body>
 	<h2 id="temp-sub-title" class="sub-header">Temperature</h2>
-	<canvas id="myTempChart" width="400" height="200"></canvas>
+	<canvas id="myTempChart" width="400" height="100"></canvas>
 	<br />
+	<div id="temp-slider"></div>
+	
 	<h2 id="hum-sub-title" class="sub-header">Humidity</h2>
-	<canvas id="myHumChart" width="400" height="200"></canvas>
+	<canvas id="myHumChart" width="400" height="100"></canvas>
+	<br />
+	<div id="humidity-slider"></div>
+	
 	<script src="js/myHVACChart.js"></script>
 </body>
 </html>

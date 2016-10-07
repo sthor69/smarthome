@@ -16,12 +16,14 @@
 
 <!-- Custom styles for this template -->
 <link href="css/dashboard.css" rel="stylesheet">
+<link href="css/jquery-ui.min.css" rel="stylesheet">
+<link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+<link href="css/jquery-ui.theme.min.css" rel="stylesheet">
 
 <script src="js/Chart.bundle.js"></script>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
+<script	src="js/jquery-3.1.1.min.js"></script>
+<script  src="js/jquery-ui.min.js"></script>
 
 
 </head>
