@@ -6,6 +6,7 @@ var totalReadings = 1440;
 var readData;
 var tempCtx = document.getElementById("myTempChart");
 var humCtx = document.getElementById("myHumChart");
+var myTempChart, myHumChart;
 
 $(function() {
 	$("#temp-slider").slider(
@@ -14,29 +15,37 @@ $(function() {
 				range : true,
 				change : function(event, ui) {
 
-					var numberOfReadings = numFromTempSliders(ui.value,
+					numFromTempSliders(ui.value,
 							ui.handleIndex);
 
 					$("#temp-sub-title").html(
-							"Number of items: " + numberOfReadings + ", min: "
+							"Number of items: " + totalReadings + ", min: "
 									+ tempSliderMinIdx + ", max: "
 									+ tempSliderMaxIdx);
 
-					var myTempChart = new Chart(tempCtx, {
+					if (typeof myTempChart !== "undefined")
+						myTempChart.destroy();
+					
+					myTempChart = new Chart(tempCtx, {
 						type : 'line',
 						data : {
-							labels : readData.slice(numberOfReadings/100*tempSliderMinIdx,
-									numberOfReadings/100*tempSliderMaxIdx).map(function(a) {
+							labels : readData.slice(totalReadings/100*tempSliderMinIdx,
+									totalReadings/100*tempSliderMaxIdx).map(function(a) {
 								return a.time;
 							}),
 							datasets : [ {
-								data : readData.slice(numberOfReadings/100*tempSliderMinIdx,
-										numberOfReadings/100*tempSliderMaxIdx).map(function(a) {
+								data : readData.slice(totalReadings/100*tempSliderMinIdx,
+										totalReadings/100*tempSliderMaxIdx).map(function(a) {
 									return a.temp[0];
 								})
 							} ]
 						},
 						options : {
+							elements : {
+								point : {
+									radius : 0
+								}
+							},
 							scales : {
 								yAxes : [ {
 									ticks : {
@@ -76,29 +85,37 @@ $(function() {
 		range : true,
 		change : function(event, ui) {
 
-			var numberOfReadings = numFromHumSliders(ui.value,
+			numFromHumSliders(ui.value,
 					ui.handleIndex);
 
 			$("#hum-sub-title").html(
-					"Number of items: " + numberOfReadings + ", min: "
-							+ tempSliderMinIdx + ", max: "
-							+ tempSliderMaxIdx);
+					"Number of items: " + totalReadings + ", min: "
+							+ totalReadings/100*humSliderMinIdx + ", max: "
+							+ totalReadings/100*humSliderMaxIdx);
 
-			var myHumChart = new Chart(humCtx, {
+			if (typeof myHumChart !== "undefined")
+				myHumChart.destroy();
+			
+			myHumChart = new Chart(humCtx, {
 				type : 'line',
 				data : {
-					labels : readData.slice(numberOfReadings/100*humSliderMinIdx,
-							numberOfReadings/100*humSliderMaxIdx).map(function(a) {
+					labels : readData.slice(totalReadings/100*humSliderMinIdx,
+							totalReadings/100*humSliderMaxIdx).map(function(a) {
 						return a.time;
 					}),
 					datasets : [ {
-						data : readData.slice(numberOfReadings/100*humSliderMinIdx,
-								numberOfReadings/100*humSliderMaxIdx).map(function(a) {
-							return a.temp[0];
+						data : readData.slice(totalReadings/100*humSliderMinIdx,
+								totalReadings/100*humSliderMaxIdx).map(function(a) {
+							return a.humidity[0];
 						})
 					} ]
 				},
 				options : {
+					elements : {
+						point : {
+							radius : 0
+						}
+					},
 					scales : {
 						yAxes : [ {
 							ticks : {
@@ -128,7 +145,10 @@ $
 
 				
 
-				var myTempChart = new Chart(tempCtx, {
+				if (typeof myTempChart !== "undefined")
+					myTempChart.destroy();
+				
+				myTempChart = new Chart(tempCtx, {
 					type : 'line',
 					data : {
 						labels : data.map(function(a) {
@@ -141,6 +161,11 @@ $
 						} ]
 					},
 					options : {
+						elements : {
+							point : {
+								radius : 0
+							}
+						},
 						scales : {
 							yAxes : [ {
 								ticks : {
@@ -151,7 +176,10 @@ $
 					}
 				});
 
-				var myHumChart = new Chart(humCtx, {
+				if (typeof myHumChart !== "undefined")
+					myHumChart.destroy();
+				
+				myHumChart = new Chart(humCtx, {
 					type : 'line',
 					data : {
 						labels : data.map(function(a) {
@@ -164,6 +192,11 @@ $
 						} ]
 					},
 					options : {
+						elements : {
+							point : {
+								radius : 0
+							}
+						},
 						scales : {
 							yAxes : [ {
 								ticks : {

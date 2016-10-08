@@ -27,10 +27,10 @@ public class UpdateEJB {
 		System.out.println("UpdateEJB Created");
 	}
 
-	@Schedule(minute = "*/1", hour = "*", persistent = false)
+	@Schedule(second = "*/1", minute = "*", hour = "*", persistent = false)
 	public void doWork() {
 		
-		System.out.println("Timer fired");
+		System.out.println("New cycle of timer");
 		
 		BufferedReader br = null;
 
@@ -44,9 +44,9 @@ public class UpdateEJB {
 
 			line = br.readLine();
 			
-			System.out.println("Read lin: " + line);
+			System.out.println("Read line: " + line);
 
-			while ((line = br.readLine()) != null) {
+			while (line != null) {
 
 				Measure newMeasure = new Measure();
 
@@ -92,6 +92,8 @@ public class UpdateEJB {
 
 				} else
 					System.out.println("NULL Ejb!!!!");
+				
+				line = br.readLine();
 			}
 
 			br.close();
