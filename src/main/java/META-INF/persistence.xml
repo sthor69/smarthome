@@ -5,6 +5,7 @@
 	<persistence-unit name="smarthomeUnit" transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>com.storassa.javaee.smarthome.Measure</class>
+		<class>com.storassa.javaee.smarthome.Monitor</class>
 		<properties>
 			<property name="eclipselink.target-database" value="DERBY" />
 			<property name="eclipselink.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver" />

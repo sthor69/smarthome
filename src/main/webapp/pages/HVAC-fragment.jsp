@@ -9,24 +9,25 @@
 <body>
 
 	<label for="timeframe">Select the time range of measures</label>
-    <select name="timeframe" id="timeframe">
-      <option selected="selected">24 hrs</option>
-      <option>48 hr</option>
-      <option>1 week</option>
-      <option>2 weeks</option>
-      <option>1 month</option>
-    </select> <br />
+	<select name="timeframe" id="timeframe" onchange="changePeriod()">
+		<option selected="selected">24 hrs</option>
+		<option>48 hr</option>
+		<option>1 week</option>
+		<option>2 weeks</option>
+		<option>1 month</option>
+	</select>
+	<br />
 
-   <h2 id="temp-sub-title" class="sub-header">Temperature</h2>
+	<h2 id="temp-sub-title" class="sub-header">Temperature</h2>
 	<canvas id="myTempChart" width="400" height="100"></canvas>
 	<br />
 	<div id="temp-slider"></div>
-	
+
 	<h2 id="hum-sub-title" class="sub-header">Humidity</h2>
 	<canvas id="myHumChart" width="400" height="100"></canvas>
 	<br />
 	<div id="humidity-slider"></div>
-	
+
 	<script src="js/myHVACChart.js"></script>
 </body>
 </html>

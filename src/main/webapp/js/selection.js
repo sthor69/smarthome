@@ -17,3 +17,7 @@ $('#monitor-img').hover(function() {
 $("#hvac-img").click(function() {
 	$("#detail-fragment").load("pages/HVAC-fragment.jsp");
 });
+
+$("#monitor-img").click(function() {
+	$("#detail-fragment").load("pages/monitor-fragment.jsp");
+});
