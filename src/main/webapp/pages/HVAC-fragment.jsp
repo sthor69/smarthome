@@ -7,7 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2 id="temp-sub-title" class="sub-header">Temperature</h2>
+
+	<label for="timeframe">Select the time range of measures</label>
+    <select name="timeframe" id="timeframe">
+      <option selected="selected">24 hrs</option>
+      <option>48 hr</option>
+      <option>1 week</option>
+      <option>2 weeks</option>
+      <option>1 month</option>
+    </select> <br />
+
+   <h2 id="temp-sub-title" class="sub-header">Temperature</h2>
 	<canvas id="myTempChart" width="400" height="100"></canvas>
 	<br />
 	<div id="temp-slider"></div>
