@@ -3,6 +3,8 @@ package com.storassa.javaee.smarthome;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,20 +35,24 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String[] fromFile = getTemperature();
+		List<String[]> fromFile = getTemperature();
 		
-		String temp = fromFile[0];
-		String humidity = fromFile[1];
+		String[] chldTemp = fromFile.get(0);
+		String[] roomTemp = fromFile.get(1);
+		int water = 0;
 
-		request.setAttribute("temp", temp);
-		request.setAttribute("humidity", humidity);
+		request.setAttribute("roomTemp", roomTemp[0]);
+		request.setAttribute("chldTemp", chldTemp[0]);
+		request.setAttribute("roomHum", roomTemp[1]);
+		request.setAttribute("chldHum", chldTemp[1]);
+		
 		
 		request.getRequestDispatcher("/pages/dashboard.jsp").forward(request, response);
 	}
 
-	private String[] getTemperature() throws IOException {
+	private List<String[]> getTemperature() throws IOException {
 
-		String[] result = {"",""};
+		List<String[]> result = new ArrayList<String[]>();
 
 		BufferedReader br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
 
@@ -54,7 +60,7 @@ public class Dashboard extends HttpServlet {
 
 		while ((line = br.readLine()) != null) {
 			if (line.startsWith(TAG)) {
-				result = line.substring(15).split(",");
+				result.add(line.substring(15).split(","));
 				System.out.println("Read from file: " + line.substring(15));
 			}
 		}

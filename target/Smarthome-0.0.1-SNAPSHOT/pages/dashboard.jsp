@@ -22,8 +22,8 @@
 
 <script src="js/Chart.bundle.js"></script>
 
-<script	src="js/jquery-3.1.1.min.js"></script>
-<script  src="js/jquery-ui.min.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
 
 
 </head>
@@ -102,14 +102,41 @@
 						<span class="text-muted">Something else</span>
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img id="monitor-img" src="images/monitoring_thumbnail.jpeg" class="img-responsive"
-							alt="Generic placeholder thumbnail">
+						<img id="monitor-img" src="images/monitoring_thumbnail.jpeg"
+							class="img-responsive" alt="Generic placeholder thumbnail">
 						<h4>Monitoring</h4>
 						<span class="text-muted">Something else</span>
 					</div>
 				</div>
 				<div id=detail-fragment>
-					<h3>Temperature: ${temp}</h3><br />
+					<table>
+						<CAPTION>
+							<EM>Current measures</EM>
+						</CAPTION>
+						<TR>
+							<TH>Room temp</TH>
+							<TD>$(roomTemp)</TD>
+							<TH>Room humidity</TH>
+							<TD>$(roomHum)</TD>
+						</TR>
+						<TR>
+							<TH>Children temp</TH>
+							<TD>$(chldTemp)</TD>
+							<TH>Children humidit</TH>y
+							<TD>$(chldHum)</TD>
+						</TR>
+					</table>
+					<table>
+						<caption>
+							<em>Water levels</em>
+						</caption>
+						<tr>
+							<th>Room water level</th>
+							<td>0</td>
+						</tr>
+					</table>
+					<h3>Temperature: ${temp}</h3>
+					<br />
 					<h3>Humidity: ${humidity}%</h3>
 					<script src="js/selection.js"></script>
 				</div>
