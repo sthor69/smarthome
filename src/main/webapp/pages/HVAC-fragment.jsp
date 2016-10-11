@@ -18,15 +18,17 @@
 	</select>
 	<br />
 
-	<h2 id="temp-sub-title" class="sub-header">Temperature</h2>
-	<canvas id="myTempChart" width="400" height="100"></canvas>
-	<br />
-	<div id="temp-slider"></div>
+   <h2>Dining room</h2>
 
-	<h2 id="hum-sub-title" class="sub-header">Humidity</h2>
-	<canvas id="myHumChart" width="400" height="100"></canvas>
+	<h3 id="room-temp-subtitle" class="sub-header">Temperature</h3>
+	<canvas id="myRoomTempChart" width="400" height="100"></canvas>
 	<br />
-	<div id="humidity-slider"></div>
+	<div id="room-temp-slider"></div>
+
+	<h3 id="room-hum-subtitle" class="sub-header">Humidity</h3>
+	<canvas id="myRoomHumChart" width="400" height="100"></canvas>
+	<br />
+	<div id="room-humidity-slider"></div>
 
 	<script src="js/myHVACChart.js"></script>
 </body>

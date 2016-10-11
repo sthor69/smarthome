@@ -1,12 +1,12 @@
-var tempSliderMinIdx = 0;
-var tempSliderMaxIdx = 100;
-var humSliderMinIdx = 0;
-var humSliderMaxIdx = 100;
+var roomTempSliderMinIdx = 0;
+var roomTempSliderMaxIdx = 100;
+var roomHumSliderMinIdx = 0;
+var roomHumSliderMaxIdx = 100;
 var totalReadings = 1440;
 var readData = [];
-var myTempCtx = document.getElementById("myTempChart");
-var myHumCtx = document.getElementById("myHumChart");
-var myTempChart, myHumChart;
+var myRoomTempCtx = document.getElementById("myRoomTempChart");
+var myRoomHumCtx = document.getElementById("myRoomHumChart");
+var myRoomTempChart, myRoomHumChart;
 
 initializeChart();
 
@@ -15,87 +15,86 @@ function initializeChart() {
 		url : 'history?num=' + totalReadings,
 		success : function(data) {
 			readData = data;
-			$('#temp-sub-title').html(
+			$('#room-temp-subtitle').html(
 					"Current temperature: " + data[data.length - 1].temp[0]);
 
-			$('#hum-sub-title').html(
+			$('#room-hum-subtitle').html(
 					"Current humidity: " + data[data.length - 1].humidity[0]
 							+ "%");
 
-			if (typeof myTempChart !== "undefined" && myTempChart !== null)
-				myTempChart.destroy();
+			if (typeof myRoomTempChart !== "undefined" && myRoomTempChart !== null)
+				myRoomTempChart.destroy();
 
-			myTempChart = createChart(myTempCtx, "temp", tempSliderMinIdx,
-					tempSliderMaxIdx)
+			myRoomTempChart = createChart(myRoomTempCtx, "temp", 
+					roomTempSliderMinIdx, roomTempSliderMaxIdx)
 
-			if (typeof myHumChart !== "undefined" && myHumChart !== null)
-				myHumChart.destroy();
+			if (typeof myRoomHumChart !== "undefined" && myRoomHumChart !== null)
+				myRoomHumChart.destroy();
 
-			myHumChart = createChart(myHumCtx, "humidity", humSliderMinIdx,
-					humSliderMinIdx)
+			myRoomHumChart = createChart(myRoomHumCtx, "humidity", 
+					roomHumSliderMinIdx, roomHumSliderMinIdx)
 
 		}
 	});
 }
 
 $(function() {
-	$("#temp-slider").slider(
+	$("#room-temp-slider").slider(
 			{
 				values : [ 0, 100 ],
 				range : true,
 				change : function(event, ui) {
 
-					numFromTempSliders(ui.value, ui.handleIndex);
+					numFromRoomTempSliders(ui.value, ui.handleIndex);
 
-					if (typeof myTempChart !== "undefined"
-							&& myTempChart !== null)
-						myTempChart.destroy();
+					if (typeof myRoomTempChart !== "undefined"
+							&& myRoomTempChart !== null)
+						myRoomTempChart.destroy();
 
-					myTempChart = createChart(myTempCtx, "temp", totalReadings
-							/ 100 * tempSliderMinIdx, totalReadings / 100
-							* tempSliderMaxIdx);
+					myRoomTempChart = createChart(myRoomTempCtx, "temp", 
+							totalReadings / 100 * roomTempSliderMinIdx, 
+							totalReadings / 100	* roomTempSliderMaxIdx);
 
 				}
 			});
 });
 
 $(function() {
-	$("#humidity-slider").slider(
+	$("#room-humidity-slider").slider(
 			{
 				values : [ 0, 100 ],
 				range : true,
 				change : function(event, ui) {
 
-					numFromHumSliders(ui.value, ui.handleIndex);
+					numFromRoomHumSliders(ui.value, ui.handleIndex);
 
-					if (typeof myHumChart !== "undefined"
-							&& myHumChart !== null)
-						myHumChart.destroy();
+					if (typeof myRoomHumChart !== "undefined" && myRoomHumChart !== null)
+						myRoomHumChart.destroy();
 
-					myHumChart = createChart(myHumCtx, "humidity",
-							totalReadings / 100 * humSliderMinIdx,
-							totalReadings / 100 * humSliderMaxIdx);
+					myRoomHumChart = createChart(myRoomHumCtx, "humidity",
+							totalReadings / 100 * roomHumSliderMinIdx,
+							totalReadings / 100 * roomHumSliderMaxIdx);
 				}
 			});
 });
 
-var numFromTempSliders = function(value, index) {
+var numFromRoomTempSliders = function(value, index) {
 	if (index == 0)
-		tempSliderMinIdx = value;
+		roomTempSliderMinIdx = value;
 	else
-		tempSliderMaxIdx = value;
+		roomTempSliderMaxIdx = value;
 
-	return 1440 / 100 * (tempSliderMaxIdx - tempSliderMinIdx);
+	return 1440 / 100 * (roomTempSliderMaxIdx - roomTempSliderMinIdx);
 
 }
 
-var numFromHumSliders = function(value, index) {
+var numFromRoomHumSliders = function(value, index) {
 	if (index == 0)
-		humSliderMinIdx = value;
+		roomHumSliderMinIdx = value;
 	else
-		humSliderMaxIdx = value;
+		roomHumSliderMaxIdx = value;
 
-	return 1440 / 100 * (humSliderMaxIdx - humSliderMinIdx);
+	return 1440 / 100 * (roomHumSliderMaxIdx - roomHumSliderMinIdx);
 
 }
 

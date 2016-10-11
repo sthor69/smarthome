@@ -107,37 +107,34 @@
 						<h4>Monitoring</h4>
 						<span class="text-muted">Something else</span>
 					</div>
-				</div>
+				</div><br /><br />
 				<div id=detail-fragment>
 					<table>
 						<CAPTION>
-							<EM>Current measures</EM>
+							<EM><h3>Current measures</h3></EM>
 						</CAPTION>
 						<TR>
-							<TH>Room temp</TH>
-							<TD>$(roomTemp)</TD>
-							<TH>Room humidity</TH>
-							<TD>$(roomHum)</TD>
+							<TH style="padding: 5px">Room temp</TH>
+							<TD style="padding: 5px">${roomTemp}</TD>
+							<TH style="padding: 5px">Room humidity</TH>
+							<TD style="padding: 5px">${roomHum}</TD>
 						</TR>
 						<TR>
-							<TH>Children temp</TH>
-							<TD>$(chldTemp)</TD>
-							<TH>Children humidit</TH>y
-							<TD>$(chldHum)</TD>
+							<TH style="padding: 5px">Children temp</TH>
+							<TD style="padding: 5px">${chldTemp}</TD>
+							<TH style="padding: 5px">Children humidity</TH>
+							<TD style="padding: 5px">${chldHum}</TD>
 						</TR>
-					</table>
+					</table><br><br><br>
 					<table>
 						<caption>
-							<em>Water levels</em>
+							<em><h3>Water levels</h3></em>
 						</caption>
 						<tr>
-							<th>Room water level</th>
-							<td>0</td>
+							<th style="padding: 5px">Room water level</th>
+							<td style="padding: 5px">0</td>
 						</tr>
 					</table>
-					<h3>Temperature: ${temp}</h3>
-					<br />
-					<h3>Humidity: ${humidity}%</h3>
 					<script src="js/selection.js"></script>
 				</div>
 			</div>
