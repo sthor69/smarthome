@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 public class Measure implements Serializable {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue (strategy = GenerationType.AUTO)
 	private long id;
 	
 	private String time;

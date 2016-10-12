@@ -19,9 +19,10 @@ public class UpdateEJB {
 
 	private static final String TAG = "smarthome";
 
-	Measure newMeasure = new Measure();
+	String[] places = { "room", "chld" };
 	String type = "";
 	int measureIdx;
+	int[] temp = new int[2], humidity = new int[2];
 
 	@EJB
 	MeasureEJB measureEjb;
@@ -33,6 +34,8 @@ public class UpdateEJB {
 
 	@Schedule(second = "*/1", minute = "*", hour = "*", persistent = false)
 	public void doWork() {
+		
+		Measure newMeasure = new Measure();
 
 		System.out.println("New cycle of timer");
 
@@ -42,9 +45,7 @@ public class UpdateEJB {
 
 			String[] result = { "", "" };
 
-			String line = "";
-			
-			int[] temp = new int[2], humidity = new int[2];
+			String line = "";		
 
 			br = new BufferedReader(
 					new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
@@ -72,8 +73,6 @@ public class UpdateEJB {
 						break;
 					}
 					
-					System.out.print("In " + result[0]);
-
 					result = line.substring(15).split(",");
 					
 				} else
@@ -88,7 +87,8 @@ public class UpdateEJB {
 					temp[measureIdx] = Integer.parseInt(result[0]);
 					humidity[measureIdx] = Integer.parseInt(result[1]);
 					
-					System.out.println(" the temperature is " + temp[measureIdx] +
+					System.out.println("In " + places[measureIdx] 
+							+ " the temperature is " + temp[measureIdx] +
 							" and the humidity is " + humidity[measureIdx]);
 
 				} else {
@@ -97,9 +97,6 @@ public class UpdateEJB {
 					humidity[measureIdx] = 0;
 				}
 				
-				newMeasure.setTemp(temp);
-				newMeasure.setHumidity(humidity);
-
 				// retrieve current date and time
 				long yourmilliseconds = System.currentTimeMillis();
 				SimpleDateFormat sdf = new SimpleDateFormat(Flags.DATE_FORMAT_MEASURE);
@@ -108,19 +105,24 @@ public class UpdateEJB {
 				// set the current date and time
 				newMeasure.setTime(sdf.format(resultdate).trim());
 
-				// if MeasureEJB got injected, persist the new measure
-				// otherwise log the mull EJB
-				if (null != measureEjb) {
-
-					System.out.println("Persisting new measure with temp " + newMeasure.getTemp());
-					measureEjb.createMeasure(newMeasure);
-
-				} else
-					
-					System.out.println("NULL Ejb!!!!");
-
 				line = br.readLine();
 			}
+
+			// if MeasureEJB got injected, persist the new measure
+			// otherwise log the mull EJB
+			if (null != measureEjb) {
+
+				newMeasure.setTemp(temp);
+				newMeasure.setHumidity(humidity);
+
+				System.out.println("Persisting new measure with temp " + 
+				temp[0] + " and " + temp[1] + ", " +
+						"humidity " + humidity[0] + " and " + humidity[1]);
+				measureEjb.createMeasure(newMeasure);
+
+			} else
+				
+				System.out.println("NULL Ejb!!!!");
 
 			br.close();
 
