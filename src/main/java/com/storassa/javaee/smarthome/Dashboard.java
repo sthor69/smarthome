@@ -60,8 +60,8 @@ public class Dashboard extends HttpServlet {
 
 		while ((line = br.readLine()) != null) {
 			if (line.startsWith(TAG)) {
-				result.add(line.substring(15).split(","));
-				System.out.println("Read from file: " + line.substring(15));
+				result.add(line.substring(TAG.length() + 7 + "measure".length()).split(","));
+				System.out.println("Read from file: " + line.substring(TAG.length() + 7 + "measure".length()));
 			}
 		}
 

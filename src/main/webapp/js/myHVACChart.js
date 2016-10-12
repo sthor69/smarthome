@@ -8,10 +8,10 @@ var chldHumSliderMinIdx = 0;
 var chldHumSliderMaxIdx = 100;
 var totalReadings = 1440;
 var readData = [];
-var myRoomTempCtx = document.getElementById("myRoomTempChart");
-var myRoomHumCtx = document.getElementById("myRoomHumChart");
-var myChldTempCtx = document.getElementById("myChldTempChart");
-var myChldHumCtx = document.getElementById("myChldHumChart");
+var myRoomTempCtx = $("#myRoomTempChart");
+var myRoomHumCtx = $("#myRoomHumChart");
+var myChldTempCtx = $("#myChldTempChart");
+var myChldHumCtx = $("#myChldHumChart");
 var myRoomTempChart, myRoomHumChart, myChldTempChart, myChldHumChart;
 
 initializeChart();

@@ -32,9 +32,9 @@ public class UpdateEJB {
 		System.out.println("UpdateEJB Created");
 	}
 
-	@Schedule(second = "*/1", minute = "*", hour = "*", persistent = false)
+	@Schedule(second = "*/10", minute = "*", hour = "*", persistent = false)
 	public void doWork() {
-		
+
 		Measure newMeasure = new Measure();
 
 		System.out.println("New cycle of timer");
@@ -45,7 +45,7 @@ public class UpdateEJB {
 
 			String[] result = { "", "" };
 
-			String line = "";		
+			String line = "";
 
 			br = new BufferedReader(
 					new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
@@ -61,7 +61,13 @@ public class UpdateEJB {
 
 				if (line.startsWith(TAG)) {
 
+					// extract the fields in the measure
+
 					result = line.substring(TAG.length() + 1).split(":");
+					System.out.println("Result of split: " + result[0] +
+							", " + result[1] + ", " + result[2]);
+
+					// extract the place of the measure
 
 					switch (result[0]) {
 
@@ -72,38 +78,49 @@ public class UpdateEJB {
 						measureIdx = 1;
 						break;
 					}
-					
-					result = line.substring(15).split(",");
-					
-				} else
 
-					result = null;
+					// if the line is about a temp/humidity measure
 
-				// if temp is not null, set the measure and log
-				// otherwise set temp to 0 and log the missing message
-				
-				if (null != result) {
-					
-					temp[measureIdx] = Integer.parseInt(result[0]);
-					humidity[measureIdx] = Integer.parseInt(result[1]);
-					
-					System.out.println("In " + places[measureIdx] 
-							+ " the temperature is " + temp[measureIdx] +
-							" and the humidity is " + humidity[measureIdx]);
+					switch (result[1]) {
 
-				} else {
+					case "measure":
 
-					temp[measureIdx] = 0;
-					humidity[measureIdx] = 0;
+						// extract the measure throwing away the length of the TAG,
+						// the length of "measure", the length of the place (room, chld)
+						// and the double semicolon
+
+						result = line.substring(TAG.length() + 7 + "measure".length()).split(",");
+
+						// if temp is not null, set the measure and log
+						// otherwise set temp to 0 and log the missing message
+
+						if (null != result) {
+
+							temp[measureIdx] = Integer.parseInt(result[0]);
+							humidity[measureIdx] = Integer.parseInt(result[1]);
+
+							System.out.println("In " + places[measureIdx] + " the temperature is " + temp[measureIdx]
+									+ " and the humidity is " + humidity[measureIdx]);
+
+						} else {
+
+							temp[measureIdx] = 0;
+							humidity[measureIdx] = 0;
+						}
+						break;
+
+					case "monitor":
+						break;
+					}
+
+					// retrieve current date and time
+					long yourmilliseconds = System.currentTimeMillis();
+					SimpleDateFormat sdf = new SimpleDateFormat(Flags.DATE_FORMAT_MEASURE);
+					Date resultdate = new Date(yourmilliseconds);
+
+					// set the current date and time
+					newMeasure.setTime(sdf.format(resultdate).trim());
 				}
-				
-				// retrieve current date and time
-				long yourmilliseconds = System.currentTimeMillis();
-				SimpleDateFormat sdf = new SimpleDateFormat(Flags.DATE_FORMAT_MEASURE);
-				Date resultdate = new Date(yourmilliseconds);
-
-				// set the current date and time
-				newMeasure.setTime(sdf.format(resultdate).trim());
 
 				line = br.readLine();
 			}
@@ -115,19 +132,18 @@ public class UpdateEJB {
 				newMeasure.setTemp(temp);
 				newMeasure.setHumidity(humidity);
 
-				System.out.println("Persisting new measure with temp " + 
-				temp[0] + " and " + temp[1] + ", " +
-						"humidity " + humidity[0] + " and " + humidity[1]);
+				System.out.println("Persisting new measure with temp " + temp[0] + " and " + temp[1] + ", "
+						+ "humidity " + humidity[0] + " and " + humidity[1]);
 				measureEjb.createMeasure(newMeasure);
 
 			} else
-				
+
 				System.out.println("NULL Ejb!!!!");
 
 			br.close();
 
 		} catch (Exception e) {
-			System.out.println("Exception thrown in UpdateEJB: " + e.getCause());
+			System.out.println("Exception thrown in UpdateEJB: " + e.getMessage());
 		}
 	}
 
