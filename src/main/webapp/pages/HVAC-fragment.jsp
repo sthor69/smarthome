@@ -30,6 +30,18 @@
 	<br />
 	<div id="room-humidity-slider"></div>
 
+	<h2>Children room</h2>
+
+   <h3 id="chld-temp-subtitle" class="sub-header">Temperature</h3>
+   <canvas id="myChldTempChart" width="400" height="100"></canvas>
+   <br />
+   <div id="chld-temp-slider"></div>
+
+   <h3 id="chld-hum-subtitle" class="sub-header">Humidity</h3>
+   <canvas id="myChldHumChart" width="400" height="100"></canvas>
+   <br />
+   <div id="chld-humidity-slider"></div>
+	
 	<script src="js/myHVACChart.js"></script>
 </body>
 </html>

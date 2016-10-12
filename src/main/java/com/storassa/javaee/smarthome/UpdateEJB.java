@@ -19,6 +19,10 @@ public class UpdateEJB {
 
 	private static final String TAG = "smarthome";
 
+	Measure newMeasure = new Measure();
+	String type = "";
+	int measureIdx;
+
 	@EJB
 	MeasureEJB measureEjb;
 
@@ -29,57 +33,78 @@ public class UpdateEJB {
 
 	@Schedule(second = "*/1", minute = "*", hour = "*", persistent = false)
 	public void doWork() {
-		
+
 		System.out.println("New cycle of timer");
-		
+
 		BufferedReader br = null;
 
 		try {
 
-			String[] result = {"",""};
+			String[] result = { "", "" };
 
 			String line = "";
+			
+			int[] temp = new int[2], humidity = new int[2];
 
-			br = new BufferedReader(new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
+			br = new BufferedReader(
+					new FileReader(System.getProperty("catalina.home") + "/webapps/smarthome/test.txt"));
 
 			line = br.readLine();
-			
-			System.out.println("Read line: " + line);
 
 			while (line != null) {
 
-				Measure newMeasure = new Measure();
+				System.out.println("Read line: " + line);
 
 				// if a new sensor message is found extract the temperature,
 				// otherwise set it to null string
+
 				if (line.startsWith(TAG)) {
+
+					result = line.substring(TAG.length() + 1).split(":");
+
+					switch (result[0]) {
+
+					case "room":
+						measureIdx = 0;
+						break;
+					case "chld":
+						measureIdx = 1;
+						break;
+					}
+					
+					System.out.print("In " + result[0]);
 
 					result = line.substring(15).split(",");
 					
 				} else
-					
+
 					result = null;
 
 				// if temp is not null, set the measure and log
 				// otherwise set temp to 0 and log the missing message
+				
 				if (null != result) {
-
-					newMeasure.setTemp(new int[] { Integer.parseInt(result[0]) });
-					newMeasure.setHumidity(new int[] {Integer.parseInt(result[1]) });
-					System.out.println("Found new measure with temp: " + result[0]
-							+ ", and humidity " + result[1]);
+					
+					temp[measureIdx] = Integer.parseInt(result[0]);
+					humidity[measureIdx] = Integer.parseInt(result[1]);
+					
+					System.out.println(" the temperature is " + temp[measureIdx] +
+							" and the humidity is " + humidity[measureIdx]);
 
 				} else {
 
-					newMeasure.setTemp(new int[] { 0 });
-					System.out.println("Sensors are not sending messages");
+					temp[measureIdx] = 0;
+					humidity[measureIdx] = 0;
 				}
+				
+				newMeasure.setTemp(temp);
+				newMeasure.setHumidity(humidity);
 
 				// retrieve current date and time
 				long yourmilliseconds = System.currentTimeMillis();
 				SimpleDateFormat sdf = new SimpleDateFormat(Flags.DATE_FORMAT_MEASURE);
 				Date resultdate = new Date(yourmilliseconds);
-				
+
 				// set the current date and time
 				newMeasure.setTime(sdf.format(resultdate).trim());
 
@@ -91,8 +116,9 @@ public class UpdateEJB {
 					measureEjb.createMeasure(newMeasure);
 
 				} else
+					
 					System.out.println("NULL Ejb!!!!");
-				
+
 				line = br.readLine();
 			}
 
