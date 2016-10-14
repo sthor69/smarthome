@@ -18,9 +18,7 @@ public class Measure implements Serializable {
 	private int[] temp;
 	
 	private int[] humidity;
-	
-	private boolean[] water;
-    
+	    
 	public int[] getTemp() {
 		return temp;
 	}
@@ -45,13 +43,6 @@ public class Measure implements Serializable {
 		this.time = time;
 	}
 
-	public boolean[] getWater() {
-		return water;
-	}
-
-	public void setWater(boolean[] water) {
-		this.water = water;
-	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,7 +52,6 @@ public class Measure implements Serializable {
 	
 	public Measure(int[] _temp, boolean[] _water) {
 		temp = _temp;
-		water = _water;
 		time = "";
 	}
    

@@ -16,9 +16,17 @@ public class Monitor implements Serializable {
 	
 	int[] water;
 	boolean alarm;
-	
+	String time;
+
 	@Id @GeneratedValue
-	long Id;
+	long id;
+	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	
 	public int[] getWater() {
 		return water;

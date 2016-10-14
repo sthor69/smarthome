@@ -1,184 +1,101 @@
-var roomTempSliderMinIdx = 0;
-var roomTempSliderMaxIdx = 100;
-var roomHumSliderMinIdx = 0;
-var roomHumSliderMaxIdx = 100;
-var chldTempSliderMinIdx = 0;
-var chldTempSliderMaxIdx = 100;
-var chldHumSliderMinIdx = 0;
-var chldHumSliderMaxIdx = 100;
+var places = [ "room", "chld" ];
+var types = [ "temp", "humidity" ];
+var handles = [ "min", "max" ];
+
 var totalReadings = 1440;
 var readData = [];
-var myRoomTempCtx = $("#myRoomTempChart");
-var myRoomHumCtx = $("#myRoomHumChart");
-var myChldTempCtx = $("#myChldTempChart");
-var myChldHumCtx = $("#myChldHumChart");
-var myRoomTempChart, myRoomHumChart, myChldTempChart, myChldHumChart;
 
-initializeChart();
+var sliderIndex = [];
+var myCtx = [];
+var myChart = [];
 
-function initializeChart() {
-	$.ajax({
-		url : 'history?num=' + totalReadings,
-		success : function(data) {
-			readData = data;
-			$('#room-temp-subtitle').html(
-					"Current temperature: " + data[data.length - 1].temp[0]);
+for (var place = 0; place < places.length; place++) {
 
-			$('#room-hum-subtitle').html(
-					"Current humidity: " + data[data.length - 1].humidity[0]
-							+ "%");
+	sliderIndex[place] = [];
+	myCtx[place] = [];
+	myChart[place] = [];
 
-			if (typeof myRoomTempChart !== "undefined"
-					&& myRoomTempChart !== null)
-				myRoomTempChart.destroy();
+	for (var type = 0; type < types.length; type++) {
 
-			myRoomTempChart = createChart(myRoomTempCtx, "temp",
-					roomTempSliderMinIdx, roomTempSliderMaxIdx, 0);
+		sliderIndex[place][type] = [];
+		sliderIndex[place][type][0] = 0;
+		sliderIndex[place][type][1] = 100;
 
-			if (typeof myRoomHumChart !== "undefined"
-					&& myRoomHumChart !== null)
-				myRoomHumChart.destroy();
-
-			myRoomHumChart = createChart(myRoomHumCtx, "humidity",
-					roomHumSliderMinIdx, roomHumSliderMinIdx, 0);
-
-			if (typeof myChldTempChart !== "undefined"
-					&& myChldTempChart !== null)
-				myChldTempChart.destroy();
-
-			myChldTempChart = createChart(myChldTempCtx, "temp",
-					chldTempSliderMinIdx, chldTempSliderMinIdx, 0)
-
-			if (typeof myChldHumChart !== "undefined"
-					&& myChldHumChart !== null)
-				myChldHumChart.destroy();
-
-			myChldHumChart = createChart(myChldHumCtx, "humidity",
-					chldHumSliderMinIdx, chldHumSliderMinIdx, 0)
-		}
-	});
+		myCtx[place][type] = $("#my" + places[place] + types[type] + "Chart");
+	}
 }
 
-$(function() {
-	$("#room-temp-slider").slider(
-			{
-				values : [ 0, 100 ],
-				range : true,
-				change : function(event, ui) {
+initializeMeasureChart();
 
-					numFromRoomTempSliders(ui.value, ui.handleIndex);
+function initializeMeasureChart() {
 
-					if (typeof myRoomTempChart !== "undefined"
-							&& myRoomTempChart !== null)
-						myRoomTempChart.destroy();
+	$
+			.ajax({
 
-					myRoomTempChart = createChart(myRoomTempCtx, "temp",
-							totalReadings / 100 * roomTempSliderMinIdx,
-							totalReadings / 100 * roomTempSliderMaxIdx, 0);
+				url : 'history?type=measure&num=' + totalReadings,
 
+				success : function(data) {
+					readData = data;
+
+					for (var place = 0; place < places.length; place++) {
+
+						for (var type = 0; type < types.length; type++) {
+
+							$(
+									'#' + places[place] + '-' + types[type]
+											+ '-subtitle')
+									.html(
+											"Current temperature: "
+													+ readData[readData.length - 1][types[type]][0]);
+							
+							if (typeof myChart[place][type] != "undefined"
+									&& myChart[place][type] != null)
+								myChart[place][type].destroy();
+
+							myChart[place][type] = createChart(
+									myCtx[place][type], types[type],
+									sliderIndex[place][type][0],
+									sliderIndex[place][type][1], 0);
+
+						}
+
+					}
 				}
 			});
-});
-
-$(function() {
-	$("#chld-temp-slider").slider(
-			{
-				values : [ 0, 100 ],
-				range : true,
-				change : function(event, ui) {
-
-					numFromChldTempSliders(ui.value, ui.handleIndex);
-
-					if (typeof myChldTempChart !== "undefined"
-							&& myChldTempChart !== null)
-						myChldTempChart.destroy();
-
-					myChldTempChart = createChart(myChldTempCtx, "temp",
-							totalReadings / 100 * chldTempSliderMinIdx,
-							totalReadings / 100 * chldTempSliderMaxIdx, 0);
-
-				}
-			});
-});
-
-$(function() {
-	$("#room-humidity-slider").slider(
-			{
-				values : [ 0, 100 ],
-				range : true,
-				change : function(event, ui) {
-
-					numFromRoomHumSliders(ui.value, ui.handleIndex);
-
-					if (typeof myRoomHumChart !== "undefined"
-							&& myRoomHumChart !== null)
-						myRoomHumChart.destroy();
-
-					myRoomHumChart = createChart(myRoomHumCtx, "humidity",
-							totalReadings / 100 * roomHumSliderMinIdx,
-							totalReadings / 100 * roomHumSliderMaxIdx, 0);
-				}
-			});
-});
-
-$(function() {
-	$("#chld-humidity-slider").slider(
-			{
-				values : [ 0, 100 ],
-				range : true,
-				change : function(event, ui) {
-
-					numFromChldHumSliders(ui.value, ui.handleIndex);
-
-					if (typeof myChldHumChart !== "undefined"
-							&& myChldHumChart !== null)
-						myChldHumChart.destroy();
-
-					myChldHumChart = createChart(myChldHumCtx, "humidity",
-							totalReadings / 100 * chldHumSliderMinIdx,
-							totalReadings / 100 * chldHumSliderMaxIdx, 0);
-				}
-			});
-});
-
-var numFromRoomTempSliders = function(value, index) {
-	if (index == 0)
-		roomTempSliderMinIdx = value;
-	else
-		roomTempSliderMaxIdx = value;
-
-	return 1440 / 100 * (roomTempSliderMaxIdx - roomTempSliderMinIdx);
-
 }
 
-var numFromChldTempSliders = function(value, index) {
-	if (index == 0)
-		chldTempSliderMinIdx = value;
-	else
-		chldTempSliderMaxIdx = value;
+for (var place = 0; place < places.length; place++) {
+	
+	for (var type = 0; type < types.length; type++) {
+		
+		$("#" + places[place] + "-" + types[type] + "-slider").slider(
+				{
+					values : [ 0, 100 ],
+					range : true,
+					change : function(event, ui) {
 
-	return 1440 / 100 * (chldTempSliderMaxIdx - chldTempSliderMinIdx);
+						var id = event.target.id.split("-");
+						var idPlace = places.indexOf(id[0]);
+						var idType = types.indexOf(id[1]);
+												
+						if (ui.handleIndex == 0)
+							sliderIndex[idPlace][idType][0] = ui.value;
+						else
+							sliderIndex[idPlace][idType][1] = ui.value;
 
-}
+						if (typeof myChart[idPlace][idType] !== "undefined"
+								&& myChart[idPlace][idType] !== null)
+							myChart[idPlace][idType].destroy();
 
-var numFromRoomHumSliders = function(value, index) {
-	if (index == 0)
-		roomHumSliderMinIdx = value;
-	else
-		roomHumSliderMaxIdx = value;
+						myChart[idPlace][idType] = createChart(myCtx[idPlace][idType],
+								types[idType], totalReadings / 100
+										* sliderIndex[idPlace][idType][0],
+								totalReadings / 100
+										* sliderIndex[idPlace][idType][1], 0);
 
-	return 1440 / 100 * (roomHumSliderMaxIdx - roomHumSliderMinIdx);
-
-}
-
-var numFromChldHumSliders = function(value, index) {
-	if (index == 0)
-		chldHumSliderMinIdx = value;
-	else
-		chldHumSliderMaxIdx = value;
-
-	return 1440 / 100 * (chldHumSliderMaxIdx - chldHumSliderMinIdx);
-
+					}
+				});
+	}
 }
 
 function changePeriod() {

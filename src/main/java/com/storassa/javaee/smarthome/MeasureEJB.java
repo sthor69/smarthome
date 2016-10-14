@@ -64,7 +64,7 @@ public class MeasureEJB {
 
 	}
 	
-	public List<Measure> findMeasure(String date) {
+	public List<Measure> findMeasures(String date) {
 		List<Measure> result = null;
 		
 		String q = "SELECT b FROM Measure b WHERE b.time LIKE '" + date + "%' ORDER BY b.id ASC";

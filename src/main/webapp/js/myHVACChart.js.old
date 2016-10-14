@@ -1,0 +1,237 @@
+var roomTempSliderMinIdx = 0;
+var roomTempSliderMaxIdx = 100;
+var roomHumSliderMinIdx = 0;
+var roomHumSliderMaxIdx = 100;
+var chldTempSliderMinIdx = 0;
+var chldTempSliderMaxIdx = 100;
+var chldHumSliderMinIdx = 0;
+var chldHumSliderMaxIdx = 100;
+var totalReadings = 1440;
+var readData = [];
+var myRoomTempCtx = $("#myRoomTempChart");
+var myRoomHumCtx = $("#myRoomHumChart");
+var myChldTempCtx = $("#myChldTempChart");
+var myChldHumCtx = $("#myChldHumChart");
+var myRoomTempChart, myRoomHumChart, myChldTempChart, myChldHumChart;
+
+initializeMeasureChart();
+
+function initializeMeasureChart() {
+	$.ajax({
+		url : 'history?type=measure&num=' + totalReadings,
+		success : function(data) {
+			readData = data;
+			$('#room-temp-subtitle').html(
+					"Current temperature: " + data[data.length - 1].temp[0]);
+
+			$('#room-hum-subtitle').html(
+					"Current humidity: " + data[data.length - 1].humidity[0]
+							+ "%");
+
+			if (typeof myRoomTempChart !== "undefined"
+					&& myRoomTempChart !== null)
+				myRoomTempChart.destroy();
+
+			myRoomTempChart = createChart(myRoomTempCtx, "temp",
+					roomTempSliderMinIdx, roomTempSliderMaxIdx, 0);
+
+			if (typeof myRoomHumChart !== "undefined"
+					&& myRoomHumChart !== null)
+				myRoomHumChart.destroy();
+
+			myRoomHumChart = createChart(myRoomHumCtx, "humidity",
+					roomHumSliderMinIdx, roomHumSliderMinIdx, 0);
+
+			if (typeof myChldTempChart !== "undefined"
+					&& myChldTempChart !== null)
+				myChldTempChart.destroy();
+
+			myChldTempChart = createChart(myChldTempCtx, "temp",
+					chldTempSliderMinIdx, chldTempSliderMinIdx, 0)
+
+			if (typeof myChldHumChart !== "undefined"
+					&& myChldHumChart !== null)
+				myChldHumChart.destroy();
+
+			myChldHumChart = createChart(myChldHumCtx, "humidity",
+					chldHumSliderMinIdx, chldHumSliderMinIdx, 0)
+		}
+	});
+}
+
+$(function() {
+	$("#room-temp-slider").slider(
+			{
+				values : [ 0, 100 ],
+				range : true,
+				change : function(event, ui) {
+
+					numFromRoomTempSliders(ui.value, ui.handleIndex);
+
+					if (typeof myRoomTempChart !== "undefined"
+							&& myRoomTempChart !== null)
+						myRoomTempChart.destroy();
+
+					myRoomTempChart = createChart(myRoomTempCtx, "temp",
+							totalReadings / 100 * roomTempSliderMinIdx,
+							totalReadings / 100 * roomTempSliderMaxIdx, 0);
+
+				}
+			});
+});
+
+$(function() {
+	$("#chld-temp-slider").slider(
+			{
+				values : [ 0, 100 ],
+				range : true,
+				change : function(event, ui) {
+
+					numFromChldTempSliders(ui.value, ui.handleIndex);
+
+					if (typeof myChldTempChart !== "undefined"
+							&& myChldTempChart !== null)
+						myChldTempChart.destroy();
+
+					myChldTempChart = createChart(myChldTempCtx, "temp",
+							totalReadings / 100 * chldTempSliderMinIdx,
+							totalReadings / 100 * chldTempSliderMaxIdx, 0);
+
+				}
+			});
+});
+
+$(function() {
+	$("#room-humidity-slider").slider(
+			{
+				values : [ 0, 100 ],
+				range : true,
+				change : function(event, ui) {
+
+					numFromRoomHumSliders(ui.value, ui.handleIndex);
+
+					if (typeof myRoomHumChart !== "undefined"
+							&& myRoomHumChart !== null)
+						myRoomHumChart.destroy();
+
+					myRoomHumChart = createChart(myRoomHumCtx, "humidity",
+							totalReadings / 100 * roomHumSliderMinIdx,
+							totalReadings / 100 * roomHumSliderMaxIdx, 0);
+				}
+			});
+});
+
+$(function() {
+	$("#chld-humidity-slider").slider(
+			{
+				values : [ 0, 100 ],
+				range : true,
+				change : function(event, ui) {
+
+					numFromChldHumSliders(ui.value, ui.handleIndex);
+
+					if (typeof myChldHumChart !== "undefined"
+							&& myChldHumChart !== null)
+						myChldHumChart.destroy();
+
+					myChldHumChart = createChart(myChldHumCtx, "humidity",
+							totalReadings / 100 * chldHumSliderMinIdx,
+							totalReadings / 100 * chldHumSliderMaxIdx, 0);
+				}
+			});
+});
+
+var numFromRoomTempSliders = function(value, index) {
+	if (index == 0)
+		roomTempSliderMinIdx = value;
+	else
+		roomTempSliderMaxIdx = value;
+
+	return 1440 / 100 * (roomTempSliderMaxIdx - roomTempSliderMinIdx);
+
+}
+
+var numFromChldTempSliders = function(value, index) {
+	if (index == 0)
+		chldTempSliderMinIdx = value;
+	else
+		chldTempSliderMaxIdx = value;
+
+	return 1440 / 100 * (chldTempSliderMaxIdx - chldTempSliderMinIdx);
+
+}
+
+var numFromRoomHumSliders = function(value, index) {
+	if (index == 0)
+		roomHumSliderMinIdx = value;
+	else
+		roomHumSliderMaxIdx = value;
+
+	return 1440 / 100 * (roomHumSliderMaxIdx - roomHumSliderMinIdx);
+
+}
+
+var numFromChldHumSliders = function(value, index) {
+	if (index == 0)
+		chldHumSliderMinIdx = value;
+	else
+		chldHumSliderMaxIdx = value;
+
+	return 1440 / 100 * (chldHumSliderMaxIdx - chldHumSliderMinIdx);
+
+}
+
+function changePeriod() {
+	var sel = $("#timeframe").prop("selectedIndex");
+
+	switch (sel) {
+
+	case 0:
+		totalReadings = 1440;
+		break;
+	case 1:
+		totalReadings = 2880;
+		break;
+	case 2:
+		totalReadings = 10080;
+		break;
+	case 3:
+		totalReadings = 20160;
+		break;
+	case 4:
+		totalReadings = 43200;
+		break;
+
+	}
+	initializeChart();
+};
+
+function createChart(ctx, dataType, min, max, sensorIdx) {
+	return new Chart(ctx, {
+		type : 'line',
+		data : {
+			labels : readData.slice(min, max).map(function(a) {
+				return a.time;
+			}),
+			datasets : [ {
+				data : readData.slice(min, max).map(function(a) {
+					return a[dataType][sensorIdx];
+				})
+			} ]
+		},
+		options : {
+			elements : {
+				point : {
+					radius : 0
+				}
+			},
+			scales : {
+				yAxes : [ {
+					ticks : {
+						beginAtZero : false
+					}
+				} ]
+			}
+		}
+	});
+}

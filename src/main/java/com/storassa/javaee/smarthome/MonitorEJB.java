@@ -64,7 +64,7 @@ public class MonitorEJB {
 
 	}
 	
-	public List<Monitor> findMonitor(String date) {
+	public List<Monitor> findMonitors(String date) {
 		List<Monitor> result = null;
 		
 		String q = "SELECT m FROM Monitor m WHERE m.time LIKE '" + date + "%' ORDER BY m.id ASC";

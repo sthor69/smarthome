@@ -18,27 +18,27 @@
 	</select>
 	<br />
 
-   <h2>Dining room</h2>
+   <h2 id=log>Dining room</h2>
 
 	<h3 id="room-temp-subtitle" class="sub-header">Temperature</h3>
-	<canvas id="myRoomTempChart" width="400" height="100"></canvas>
+	<canvas id="myroomtempChart" width="400" height="100"></canvas>
 	<br />
 	<div id="room-temp-slider"></div>
 
-	<h3 id="room-hum-subtitle" class="sub-header">Humidity</h3>
-	<canvas id="myRoomHumChart" width="400" height="100"></canvas>
+	<h3 id="room-humidity-subtitle" class="sub-header">Humidity</h3>
+	<canvas id="myroomhumidityChart" width="400" height="100"></canvas>
 	<br />
 	<div id="room-humidity-slider"></div>
 
 	<h2>Children room</h2>
 
    <h3 id="chld-temp-subtitle" class="sub-header">Temperature</h3>
-   <canvas id="myChldTempChart" width="400" height="100"></canvas>
+   <canvas id="mychldtempChart" width="400" height="100"></canvas>
    <br />
    <div id="chld-temp-slider"></div>
 
-   <h3 id="chld-hum-subtitle" class="sub-header">Humidity</h3>
-   <canvas id="myChldHumChart" width="400" height="100"></canvas>
+   <h3 id="chld-humidity-subtitle" class="sub-header">Humidity</h3>
+   <canvas id="mychldhumidityChart" width="400" height="100"></canvas>
    <br />
    <div id="chld-humidity-slider"></div>
 	
