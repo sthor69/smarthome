@@ -45,7 +45,7 @@ function initializeMeasureChart() {
 									'#' + places[place] + '-' + types[type]
 											+ '-subtitle')
 									.html(
-											"Current temperature: "
+											"Current " + types[type] + ": "
 													+ readData[readData.length - 1][types[type]][0]);
 							
 							if (typeof myChart[place][type] != "undefined"
