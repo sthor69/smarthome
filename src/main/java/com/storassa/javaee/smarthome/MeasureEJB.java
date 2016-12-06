@@ -72,7 +72,7 @@ public class MeasureEJB {
 		Query query = em.createQuery(q);
 //		query.setParameter("x", date + "%");
 		
-		System.out.println("Created query: " + q);
+		System.out.println("Created query: " + q;
 		System.out.println("DB access for query: " + query.toString());
 		
 		result = query.getResultList();
