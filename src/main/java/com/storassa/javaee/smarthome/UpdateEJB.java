@@ -80,7 +80,7 @@ public class UpdateEJB {
 						System.out.println("processing chld data...");
 						break;
 					case "corr":
-						measureIdx = 0;
+						measureIdx = 2;
 						System.out.println("processing corr data...");
 						break;
 					}
@@ -97,7 +97,7 @@ public class UpdateEJB {
 						// the length of "measure", the length of the place (room, chld)
 						// and the double semicolon
 
-						result = line.substring(TAG.length() + 7 + "measure".length()).split(",");
+						result = line.substring(TAG.length() + 7 + "measure".length()).split(":");
 
 						temp[measureIdx] = Integer.parseInt(result[0]);
 						humidity[measureIdx] = Integer.parseInt(result[1]);

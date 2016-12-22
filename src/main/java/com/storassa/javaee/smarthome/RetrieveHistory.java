@@ -28,6 +28,14 @@ public class RetrieveHistory extends HttpServlet {
 	@EJB
 	MonitorEJB monitorEjb;
 
+    public MeasureEJB getMeasureEjb() {
+        return this.measureEjb;
+    }
+
+    public void setMeasureEJB(MeasureEJB m) {
+        this.measureEjb = m;
+    }
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = "smarthome";
+	private static final String TAG = "sh";
 
 
 	/**
@@ -37,14 +37,11 @@ public class Dashboard extends HttpServlet {
 
 		List<String[]> fromFile = getTemperature();
 		
-		String[] chldTemp = fromFile.get(0);
-		String[] roomTemp = fromFile.get(1);
+		String[] roomMeasure = fromFile.get(0);
 		int water = 0;
 
-		request.setAttribute("roomTemp", roomTemp[0]);
-		request.setAttribute("chldTemp", chldTemp[0]);
-		request.setAttribute("roomHum", roomTemp[1]);
-		request.setAttribute("chldHum", chldTemp[1]);
+		request.setAttribute("roomTemp", roomMeasure[0]);
+		request.setAttribute("roomHum", roomMeasure[1]);
 		
 		
 		request.getRequestDispatcher("/pages/dashboard.jsp").forward(request, response);
@@ -59,9 +56,10 @@ public class Dashboard extends HttpServlet {
 		String line = "";
 
 		while ((line = br.readLine()) != null) {
+            System.out.println("Read: " + line);
 			if (line.startsWith(TAG)) {
 				result.add(line.substring(TAG.length() + 7 + "measure".length()).split(":"));
-				System.out.println("Read from file: " + line.substring(TAG.length() + 7 + "measure".length()));
+				System.out.println("Read from sensor: " + line.substring(TAG.length() + 7 + "measure".length()));
 			}
 		}
 
