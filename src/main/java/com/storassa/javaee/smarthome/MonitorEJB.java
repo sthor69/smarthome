@@ -42,7 +42,7 @@ public class MonitorEJB {
 
 		try {
 			
-			Query query = em.createQuery("SELECT m FROM Monitor m ORDER BY m.id ASC");
+			Query query = em.createQuery("SELECT m FROM Monitor m ORDER BY m.id DESC");
 			result = query.setFirstResult(0).getResultList();
 			
 			System.out.println("DB access for query: " + query.toString());
@@ -67,7 +67,7 @@ public class MonitorEJB {
 	public List<Monitor> findMonitors(String date) {
 		List<Monitor> result = null;
 		
-		String q = "SELECT m FROM Monitor m WHERE m.time LIKE '" + date + "%' ORDER BY m.id ASC";
+		String q = "SELECT m FROM Monitor m WHERE m.time LIKE '" + date + "%' ORDER BY m.id DESC";
 		
 		Query query = em.createQuery(q);
 //		query.setParameter("x", date + "%");

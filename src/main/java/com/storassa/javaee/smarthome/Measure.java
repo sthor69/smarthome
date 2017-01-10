@@ -15,23 +15,23 @@ public class Measure implements Serializable {
 	
 	private String time;
 	
-	private int[] temp;
+	private double[] temp;
 	
-	private int[] humidity;
+	private double[] humidity;
 	    
-	public int[] getTemp() {
+	public double[] getTemp() {
 		return temp;
 	}
 
-	public void setTemp(int[] temp) {
+	public void setTemp(double[] temp) {
 		this.temp = temp;
 	}
 
-	public int[] getHumidity() {
+	public double[] getHumidity() {
 		return humidity;
 	}
 
-	public void setHumidity(int[] humidity) {
+	public void setHumidity(double[] humidity) {
 		this.humidity = humidity;
 	}
 
@@ -50,8 +50,9 @@ public class Measure implements Serializable {
 		super();
 	}
 	
-	public Measure(int[] _temp, boolean[] _water) {
+	public Measure(double[] _temp, double[] _humidity) {
 		temp = _temp;
+		humidity = _humidity;
 		time = "";
 	}
    

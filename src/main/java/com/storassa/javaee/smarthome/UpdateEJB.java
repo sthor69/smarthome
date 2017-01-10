@@ -17,14 +17,14 @@ import javax.ejb.Stateless;
 @Startup
 public class UpdateEJB {
 
-	private static final String TAG = "smarthome";
+	private static final String TAG = "sh";
 
 	String[] places = { "room", "chld" };
 	String type = "";
 	int measureIdx;
-	int[] temp = new int[2], 
-			humidity = new int[2], 
-			water = new int[2];
+	double[] temp = new double[2], 
+			humidity = new double[2];
+	int[] water = new int[2];
 	
 
 	@EJB
@@ -99,8 +99,8 @@ public class UpdateEJB {
 
 						result = line.substring(TAG.length() + 7 + "measure".length()).split(":");
 
-						temp[measureIdx] = Integer.parseInt(result[0]);
-						humidity[measureIdx] = Integer.parseInt(result[1]);
+						temp[measureIdx] = Double.parseDouble(result[0]);
+						humidity[measureIdx] = Double.parseDouble(result[1]);
 						
 
 						// if MeasureEJB got injected, persist the new measure
@@ -152,7 +152,7 @@ public class UpdateEJB {
 			br.close();
 
 		} catch (Exception e) {
-			System.out.println("Exception thrown in UpdateEJB: " + e.getMessage());
+            throw new RuntimeException(e);
 		}
 	}
 	
