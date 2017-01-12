@@ -98,10 +98,17 @@ public class UpdateEJB {
 						// and the double semicolon
 
 						result = line.substring(TAG.length() + 7 + "measure".length()).split(":");
+                        if (result.length > 1) {
+                            if (!result[0].equals("nan")) {
+                                System.out.println("Parsing string " + result[0]);
+        						temp[measureIdx] = Double.parseDouble(result[0]);
+                            }
 
-						temp[measureIdx] = Double.parseDouble(result[0]);
-						humidity[measureIdx] = Double.parseDouble(result[1]);
-						
+                            if (!result[1].equals("nan")) {
+	                            System.out.println("Parsing string " + result[1]);
+	    				        humidity[measureIdx] = Double.parseDouble(result[1]);
+                            }
+                        }
 
 						// if MeasureEJB got injected, persist the new measure
 						// otherwise log the mull EJB
@@ -125,7 +132,9 @@ public class UpdateEJB {
 						Monitor newMonitor = new Monitor();
 						
 						result = line.substring(TAG.length() + 7 + "monitor".length()).split(",");
-						water[measureIdx] = Integer.parseInt(result[0]);
+
+                        if (result.length > 0 && !result[0].equals("nan"))
+    						water[measureIdx] = Integer.parseInt(result[0]);
 						
 						if (null != monitorEjb) {
 							

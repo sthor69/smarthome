@@ -42,7 +42,7 @@ public class MeasureEJB {
 
 		try {
 			
-			Query query = em.createQuery("SELECT b FROM Measure b ORDER BY b.id DESC");
+			Query query = em.createQuery("SELECT b FROM Measure b ORDER BY b.id ASC");
 			result = query.setFirstResult(0).getResultList();
 			
 			System.out.println("DB access for query: " + query.toString());
@@ -67,7 +67,7 @@ public class MeasureEJB {
 	public List<Measure> findMeasures(String date) {
 		List<Measure> result = null;
 		
-		String q = "SELECT b FROM Measure b WHERE b.time LIKE '" + date + "%' ORDER BY b.id DESC";
+		String q = "SELECT b FROM Measure b WHERE b.time LIKE '" + date + "%' ORDER BY b.id ASC";
 		
 		Query query = em.createQuery(q);
 //		query.setParameter("x", date + "%");
