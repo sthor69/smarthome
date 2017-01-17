@@ -21,24 +21,24 @@
    <h2 id=log>Dining room</h2>
 
 	<h3 id="room-temp-subtitle" class="sub-header">Temperature</h3>
-	<canvas id="myroomtempChart" width="400" height="100"></canvas>
+	<div id="myroomtempChart" width="400" height="100"></div>
 	<br />
 	<div id="room-temp-slider"></div>
 
 	<h3 id="room-humidity-subtitle" class="sub-header">Humidity</h3>
-	<canvas id="myroomhumidityChart" width="400" height="100"></canvas>
+	<div id="myroomhumidityChart" width="400" height="100"></div>
 	<br />
 	<div id="room-humidity-slider"></div>
 
 	<h2>Children room</h2>
 
    <h3 id="chld-temp-subtitle" class="sub-header">Temperature</h3>
-   <canvas id="mychldtempChart" width="400" height="100"></canvas>
+   <div id="mychldtempChart" width="400" height="100"></div>
    <br />
    <div id="chld-temp-slider"></div>
 
    <h3 id="chld-humidity-subtitle" class="sub-header">Humidity</h3>
-   <canvas id="mychldhumidityChart" width="400" height="100"></canvas>
+   <div id="mychldhumidityChart" width="400" height="100"></div>
    <br />
    <div id="chld-humidity-slider"></div>
 	

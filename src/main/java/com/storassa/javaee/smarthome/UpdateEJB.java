@@ -38,7 +38,7 @@ public class UpdateEJB {
 		System.out.println("UpdateEJB Created");
 	}
 
-	@Schedule(second = "*/10", minute = "*", hour = "*", persistent = false)
+	@Schedule(minute = "*/1", hour = "*", persistent = false)
 	public void doWork() {
 
 		System.out.println("New cycle of timer");
