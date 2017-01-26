@@ -157,7 +157,15 @@ function oldcreateChart(ctx, dataType, min, max, sensorIdx) {
 };
 
 function createChart(ctx, dataType, sensorIdx) {
-    console.log(ctx);
+    
+    console.log(readData.map(function(a) {
+        var date = new Date(a["time"]);
+        var ret = [];
+        ret[0] = date.getTime();
+        ret[1] = a[dataType][sensorIdx];
+        return ret;
+    }));
+
     Highcharts.chart(ctx , {
         chart: {
             zoomType: 'x'
@@ -211,7 +219,13 @@ function createChart(ctx, dataType, sensorIdx) {
             type: 'area',
             name: dataType,
             data: readData.map(function(a) {
-					return a[dataType][sensorIdx];
+                //					return a[dataType][sensorIdx];
+                var date = new Date(a["time"]);
+                var ret = [];
+                ret[0] = date.getTime();
+                ret[1] = a[dataType][sensorIdx];
+                return ret;
+
             })
         }]
     });
