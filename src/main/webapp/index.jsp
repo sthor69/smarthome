@@ -42,7 +42,7 @@
 				<ul class="nav nav-justified">
 					<li class="active"><a href="#">Home</a></li>
 					<li><a href="dashboard">Dashboard</a></li>
-					<li><a href="#">Illumination</a></li>
+					<li><a href="pages/location.jsp">Illumination</a></li>
 					<li><a href="#">Air conditioning</a></li>
 					<li><a href="#">Energy saving</a></li>
 					<li><a href="#">Help</a></li>
