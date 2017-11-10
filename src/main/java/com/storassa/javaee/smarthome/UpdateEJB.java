@@ -71,7 +71,7 @@ public class UpdateEJB {
 
 					switch (result[0]) {
 
-					case "room":
+					case "sala":
 						measureIdx = 0;
 						System.out.println("processing room data...");
 						break;
