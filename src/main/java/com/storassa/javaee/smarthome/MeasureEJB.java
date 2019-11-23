@@ -1,6 +1,6 @@
 package com.storassa.javaee.smarthome;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -42,8 +42,9 @@ public class MeasureEJB {
 
 		try {
 			
-			Query query = em.createQuery("SELECT b FROM Measure b ORDER BY b.id ASC");
+			Query query = em.createQuery("SELECT b FROM Measure b ORDER BY b.id DESC");
 			result = query.setFirstResult(0).setMaxResults(num).getResultList();
+			Collections.reverse(result);
 			
 			System.out.println("Limited DB access for query: " + query.toString());
 			
